@@ -1,0 +1,1560 @@
+puts {-- Note: Precision Synthesis Started}
+
+proc get_state { args } {
+   set state {}
+   catch {
+      set impl [get_impl_property -name]
+      set psi [open $impl/${impl}.psi r]
+      while {[gets $psi line] >= 0} {
+            if {[regexp -- "PROP key='statename' .*value='(.+)'" $line du state]} {
+                  break
+            }
+      }
+      close $psi
+   }
+   set state
+}
+proc run_setup { args } {
+   ## Setup Project
+   new_project -name psr_v -folder . -createimpl_name psr_v_impl -force
+   set_project_property -usetempdir false
+   set_input_dir .
+   setup_design -var "analyze_extra_options=-override -keeplast"
+
+   ## Add source HDL files
+   add_input_file ./rtl_mgc_ioport.v -format verilog
+   add_input_file ./rtl_mgc_ioport_v2001.v -format verilog
+   add_input_file ./rtl.v -format verilog
+   setup_design -design=GameUnit
+
+   ## Setup global frequence
+   setup_design -frequency 50.0
+
+   ## Setup technology settings
+   setup_design -manufacturer Altera -family {Cyclone III} -part EP3C16F484C -speed 6
+   setup_design -variable bumpup_device=true
+   setup_design -addio=true
+   setup_design -edif=true
+   setup_design -retiming=false
+
+if {[string compare [lindex [split [get_version] .] 0] "2010a"] >= 0} {
+setup_place_and_route -flow "Quartus II Modular" -command "Integrated Place and Route" -ba_format Verilog
+}
+
+   ## Add timing constraint file
+   add_input_file ./rtl.v.psr_timing -format SDC
+
+   save_project
+}
+
+proc run_mapped { args } {
+   ## Synthesize design
+   puts "-- Starting synthesis for design 'GameUnit': [clock format [clock seconds]]"
+   compile
+
+   # When a clock is not detected (e.g. combinational designs) Precision RTL
+   # creates the fake clock "Design_Clock" with the period corresponding to the frequency
+   # setting in the setup_design.
+
+   ## IO TIMING CONSTRAINTS
+   set hls_design_clk [lindex [concat [find_clocks -top] [all_clocks]] 0]
+   # These constraints prevent the 'No initialized timing analysis; 
+   # cannot define a Clock.' error message in combinational designs
+   set_input_delay 0.0 -clock $hls_design_clk [all_inputs]
+   set_output_delay 0.0 -clock $hls_design_clk [all_outputs]
+
+   synthesize
+   puts "-- Synthesis finished for design 'GameUnit': [clock format [clock seconds]]"
+
+   puts "-- BlockMulUnit (from /LIBS/mgc_Altera-Cyclone-III-6_beh_psr/MODS/mgc_mul/BINDINGS/all/PROPERTY_MAPPING/BlockMulUnit): 160.0"
+   puts "-- BlockMulUnit (from /LIBS/mgc_Altera-Cyclone-III-6_beh_psr/MODS/mgc_mul_pipe/BINDINGS/all/PROPERTY_MAPPING/BlockMulUnit): 160.0"
+
+   puts "-- Characterization mode: p2p "
+
+   # Gather area and timing information
+   puts "-- Synthesis area report for design 'GameUnit'"
+   report_area -cell_usage
+   puts "-- END Synthesis area report for design 'GameUnit'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to meteordirectionout_rsc_z(3:0)
+   report_timing -from restart_rsc_z -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to player1y_rsc_z(10:0)
+   report_timing -from restart_rsc_z -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to player2y_rsc_z(10:0)
+   report_timing -from restart_rsc_z -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to meteorpxout_rsc_z(10:0)
+   report_timing -from restart_rsc_z -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to meteorpyout_rsc_z(10:0)
+   report_timing -from restart_rsc_z -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p1_rsc_z
+   report_timing -from restart_rsc_z -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p2_rsc_z
+   report_timing -from restart_rsc_z -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p3_rsc_z
+   report_timing -from restart_rsc_z -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p4_rsc_z
+   report_timing -from restart_rsc_z -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p5_rsc_z
+   report_timing -from restart_rsc_z -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p6_rsc_z
+   report_timing -from restart_rsc_z -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p7_rsc_z
+   report_timing -from restart_rsc_z -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p1p8_rsc_z
+   report_timing -from restart_rsc_z -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p1_rsc_z
+   report_timing -from restart_rsc_z -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p2_rsc_z
+   report_timing -from restart_rsc_z -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p3_rsc_z
+   report_timing -from restart_rsc_z -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p4_rsc_z
+   report_timing -from restart_rsc_z -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p5_rsc_z
+   report_timing -from restart_rsc_z -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p6_rsc_z
+   report_timing -from restart_rsc_z -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p7_rsc_z
+   report_timing -from restart_rsc_z -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to p2p8_rsc_z
+   report_timing -from restart_rsc_z -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to player1score_rsc_z
+   report_timing -from restart_rsc_z -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from restart_rsc_z -to player2score_rsc_z
+   report_timing -from restart_rsc_z -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from random_rsc_z(15:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to player1y_rsc_z(10:0)
+   report_timing -from random_rsc_z(15:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to player2y_rsc_z(10:0)
+   report_timing -from random_rsc_z(15:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from random_rsc_z(15:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from random_rsc_z(15:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p1_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p2_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p3_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p4_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p5_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p6_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p7_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p1p8_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p1_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p2_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p3_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p4_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p5_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p6_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p7_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to p2p8_rsc_z
+   report_timing -from random_rsc_z(15:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to player1score_rsc_z
+   report_timing -from random_rsc_z(15:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from random_rsc_z(15:0) -to player2score_rsc_z
+   report_timing -from random_rsc_z(15:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from redobjecty_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to player1y_rsc_z(10:0)
+   report_timing -from redobjecty_rsc_z(10:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to player2y_rsc_z(10:0)
+   report_timing -from redobjecty_rsc_z(10:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from redobjecty_rsc_z(10:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from redobjecty_rsc_z(10:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p1_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p2_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p3_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p4_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p5_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p6_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p7_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p1p8_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p1_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p2_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p3_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p4_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p5_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p6_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p7_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to p2p8_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to player1score_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from redobjecty_rsc_z(10:0) -to player2score_rsc_z
+   report_timing -from redobjecty_rsc_z(10:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from blueobjecty_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to player1y_rsc_z(10:0)
+   report_timing -from blueobjecty_rsc_z(10:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to player2y_rsc_z(10:0)
+   report_timing -from blueobjecty_rsc_z(10:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from blueobjecty_rsc_z(10:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from blueobjecty_rsc_z(10:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p1_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p2_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p3_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p4_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p5_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p6_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p7_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p1p8_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p1_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p2_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p3_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p4_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p5_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p6_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p7_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to p2p8_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to player1score_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from blueobjecty_rsc_z(10:0) -to player2score_rsc_z
+   report_timing -from blueobjecty_rsc_z(10:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from meteorpx_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to player1y_rsc_z(10:0)
+   report_timing -from meteorpx_rsc_z(10:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to player2y_rsc_z(10:0)
+   report_timing -from meteorpx_rsc_z(10:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from meteorpx_rsc_z(10:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from meteorpx_rsc_z(10:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p1_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p2_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p3_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p4_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p5_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p6_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p7_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p1p8_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p1_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p2_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p3_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p4_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p5_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p6_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p7_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to p2p8_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to player1score_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpx_rsc_z(10:0) -to player2score_rsc_z
+   report_timing -from meteorpx_rsc_z(10:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from meteorpy_rsc_z(10:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to player1y_rsc_z(10:0)
+   report_timing -from meteorpy_rsc_z(10:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to player2y_rsc_z(10:0)
+   report_timing -from meteorpy_rsc_z(10:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from meteorpy_rsc_z(10:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from meteorpy_rsc_z(10:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p1_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p2_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p3_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p4_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p5_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p6_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p7_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p1p8_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p1_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p2_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p3_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p4_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p5_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p6_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p7_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to p2p8_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to player1score_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteorpy_rsc_z(10:0) -to player2score_rsc_z
+   report_timing -from meteorpy_rsc_z(10:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from meteordirectionin_rsc_z(3:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to player1y_rsc_z(10:0)
+   report_timing -from meteordirectionin_rsc_z(3:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to player2y_rsc_z(10:0)
+   report_timing -from meteordirectionin_rsc_z(3:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from meteordirectionin_rsc_z(3:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from meteordirectionin_rsc_z(3:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p1_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p2_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p3_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p4_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p5_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p6_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p7_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p1p8_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p1_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p2_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p3_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p4_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p5_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p6_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p7_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to p2p8_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to player1score_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from meteordirectionin_rsc_z(3:0) -to player2score_rsc_z
+   report_timing -from meteordirectionin_rsc_z(3:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from p1planets_rsc_z(7:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to player1y_rsc_z(10:0)
+   report_timing -from p1planets_rsc_z(7:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to player2y_rsc_z(10:0)
+   report_timing -from p1planets_rsc_z(7:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from p1planets_rsc_z(7:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from p1planets_rsc_z(7:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p1_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p2_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p3_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p4_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p5_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p6_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p7_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p1p8_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p1_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p2_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p3_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p4_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p5_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p6_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p7_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to p2p8_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to player1score_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p1planets_rsc_z(7:0) -to player2score_rsc_z
+   report_timing -from p1planets_rsc_z(7:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to meteordirectionout_rsc_z(3:0)
+   report_timing -from p2planets_rsc_z(7:0) -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to player1y_rsc_z(10:0)
+   report_timing -from p2planets_rsc_z(7:0) -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to player2y_rsc_z(10:0)
+   report_timing -from p2planets_rsc_z(7:0) -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to meteorpxout_rsc_z(10:0)
+   report_timing -from p2planets_rsc_z(7:0) -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to meteorpyout_rsc_z(10:0)
+   report_timing -from p2planets_rsc_z(7:0) -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p1_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p2_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p3_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p4_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p5_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p6_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p7_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p1p8_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p1p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p1_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p1_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p2_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p2_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p3_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p3_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p4_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p4_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p5_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p5_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p6_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p6_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p7_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p7_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to p2p8_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to p2p8_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to player1score_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to player1score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+
+   puts "-- Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   set_max_delay 20.000000 -design rtl -from p2planets_rsc_z(7:0) -to player2score_rsc_z
+   report_timing -from p2planets_rsc_z(7:0) -to player2score_rsc_z -num_paths 1 -detail 
+   puts "-- END Synthesis input_to_output:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+
+
+   set regs_clk [all_registers -clock {clk}]
+   if { [llength ${regs_clk} ] > 0 } {
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 restart_rsc_z
+      report_timing -from restart_rsc_z -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 random_rsc_z(15:0)
+      report_timing -from random_rsc_z(15:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 redobjecty_rsc_z(10:0)
+      report_timing -from redobjecty_rsc_z(10:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 blueobjecty_rsc_z(10:0)
+      report_timing -from blueobjecty_rsc_z(10:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 meteorpx_rsc_z(10:0)
+      report_timing -from meteorpx_rsc_z(10:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 meteorpy_rsc_z(10:0)
+      report_timing -from meteorpy_rsc_z(10:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 meteordirectionin_rsc_z(3:0)
+      report_timing -from meteordirectionin_rsc_z(3:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 p1planets_rsc_z(7:0)
+      report_timing -from p1planets_rsc_z(7:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      set_input_delay -design rtl -clock clk 0.0 p2planets_rsc_z(7:0)
+      report_timing -from p2planets_rsc_z(7:0) -to $regs_clk -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+
+      # this workaround ensures that there is a input delay for the cases
+      # where Precision does not have a complete timing model for a particular device
+      # the reported value is used if no other input delay value is reported
+      #puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '0' 'INOUT' port 'clk' '0' 'INOUT' CLOCK 'clk'"
+      #report_timing -from clk -to [all_registers -clock {clk}] -num_paths 1 -detail 
+      #puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '0' 'INOUT' port 'clk' '0' 'INOUT' CLOCK 'clk'"
+   }
+
+   set regs_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+   if { [llength ${regs_restart_rsc_z} ] > 0 } {
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 random_rsc_z(15:0)
+      report_timing -from random_rsc_z(15:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '2' 'IN' port 'random_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 redobjecty_rsc_z(10:0)
+      report_timing -from redobjecty_rsc_z(10:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '3' 'IN' port 'redobjecty_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 blueobjecty_rsc_z(10:0)
+      report_timing -from blueobjecty_rsc_z(10:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '4' 'IN' port 'blueobjecty_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 meteorpx_rsc_z(10:0)
+      report_timing -from meteorpx_rsc_z(10:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '5' 'IN' port 'meteorpx_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 meteorpy_rsc_z(10:0)
+      report_timing -from meteorpy_rsc_z(10:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '6' 'IN' port 'meteorpy_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 meteordirectionin_rsc_z(3:0)
+      report_timing -from meteordirectionin_rsc_z(3:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '7' 'IN' port 'meteordirectionin_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 p1planets_rsc_z(7:0)
+      report_timing -from p1planets_rsc_z(7:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '8' 'IN' port 'p1planets_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      set_input_delay -design rtl -clock restart_rsc_z 0.0 p2planets_rsc_z(7:0)
+      report_timing -from p2planets_rsc_z(7:0) -to $regs_restart_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '9' 'IN' port 'p2planets_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+
+      # this workaround ensures that there is a input delay for the cases
+      # where Precision does not have a complete timing model for a particular device
+      # the reported value is used if no other input delay value is reported
+      #puts "-- Synthesis input_to_register:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      #report_timing -from restart_rsc_z -to [all_registers -clock {restart_rsc_z}] -num_paths 1 -detail 
+      #puts "-- END Synthesis input_to_register:timing report for design 'GameUnit' '1' 'IN' port 'restart_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+   }
+
+      set regsi_clk [all_registers -clock {clk}]
+      set regso_clk [all_registers -clock {clk}]
+      if { [llength ${regsi_clk} ] > 0 && [llength ${regso_clk} ] > 0 } {
+         puts "-- Synthesis register_to_register:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '0' 'INOUT' CLOCK 'clk'"
+         report_timing -from ${regs_clk} -to ${regs_clk} -num_paths 1 -detail 
+         puts "-- END Synthesis register_to_register:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '0' 'INOUT' CLOCK 'clk'"
+      }
+
+      set regsi_clk [all_registers -clock {clk}]
+      set regso_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+      if { [llength ${regsi_clk} ] > 0 && [llength ${regso_restart_rsc_z} ] > 0 } {
+         puts "-- Synthesis register_to_register:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '1' 'IN' CLOCK 'restart_rsc_z'"
+         report_timing -from ${regs_clk} -to ${regs_restart_rsc_z} -num_paths 1 -detail 
+         puts "-- END Synthesis register_to_register:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '1' 'IN' CLOCK 'restart_rsc_z'"
+      }
+
+      set regsi_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+      set regso_clk [all_registers -clock {clk}]
+      if { [llength ${regsi_restart_rsc_z} ] > 0 && [llength ${regso_clk} ] > 0 } {
+         puts "-- Synthesis register_to_register:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+         report_timing -from ${regs_restart_rsc_z} -to ${regs_clk} -num_paths 1 -detail 
+         puts "-- END Synthesis register_to_register:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '0' 'INOUT' CLOCK 'clk'"
+      }
+
+      set regsi_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+      set regso_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+      if { [llength ${regsi_restart_rsc_z} ] > 0 && [llength ${regso_restart_rsc_z} ] > 0 } {
+         puts "-- Synthesis register_to_register:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+         report_timing -from ${regs_restart_rsc_z} -to ${regs_restart_rsc_z} -num_paths 1 -detail 
+         puts "-- END Synthesis register_to_register:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '1' 'IN' CLOCK 'restart_rsc_z'"
+      }
+
+   set regs_clk [all_registers -clock {clk}]
+   if { [llength ${regs_clk} ] > 0 } {
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 meteordirectionout_rsc_z(3:0)
+      report_timing -from [all_registers -clock clk] -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '11' 'OUT' port 'player1y_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 player1y_rsc_z(10:0)
+      report_timing -from [all_registers -clock clk] -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '11' 'OUT' port 'player1y_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '12' 'OUT' port 'player2y_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 player2y_rsc_z(10:0)
+      report_timing -from [all_registers -clock clk] -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '12' 'OUT' port 'player2y_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '13' 'OUT' port 'meteorpxout_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 meteorpxout_rsc_z(10:0)
+      report_timing -from [all_registers -clock clk] -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '13' 'OUT' port 'meteorpxout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '14' 'OUT' port 'meteorpyout_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 meteorpyout_rsc_z(10:0)
+      report_timing -from [all_registers -clock clk] -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '14' 'OUT' port 'meteorpyout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '15' 'OUT' port 'p1p1_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p1_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p1_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '15' 'OUT' port 'p1p1_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '16' 'OUT' port 'p1p2_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p2_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p2_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '16' 'OUT' port 'p1p2_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '17' 'OUT' port 'p1p3_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p3_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p3_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '17' 'OUT' port 'p1p3_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '18' 'OUT' port 'p1p4_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p4_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p4_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '18' 'OUT' port 'p1p4_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '19' 'OUT' port 'p1p5_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p5_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p5_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '19' 'OUT' port 'p1p5_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '20' 'OUT' port 'p1p6_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p6_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p6_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '20' 'OUT' port 'p1p6_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '21' 'OUT' port 'p1p7_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p7_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p7_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '21' 'OUT' port 'p1p7_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '22' 'OUT' port 'p1p8_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p1p8_rsc_z
+      report_timing -from [all_registers -clock clk] -to p1p8_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '22' 'OUT' port 'p1p8_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '23' 'OUT' port 'p2p1_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p1_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p1_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '23' 'OUT' port 'p2p1_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '24' 'OUT' port 'p2p2_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p2_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p2_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '24' 'OUT' port 'p2p2_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '25' 'OUT' port 'p2p3_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p3_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p3_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '25' 'OUT' port 'p2p3_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '26' 'OUT' port 'p2p4_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p4_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p4_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '26' 'OUT' port 'p2p4_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '27' 'OUT' port 'p2p5_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p5_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p5_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '27' 'OUT' port 'p2p5_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '28' 'OUT' port 'p2p6_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p6_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p6_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '28' 'OUT' port 'p2p6_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '29' 'OUT' port 'p2p7_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p7_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p7_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '29' 'OUT' port 'p2p7_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '30' 'OUT' port 'p2p8_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 p2p8_rsc_z
+      report_timing -from [all_registers -clock clk] -to p2p8_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '30' 'OUT' port 'p2p8_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '31' 'OUT' port 'player1score_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 player1score_rsc_z
+      report_timing -from [all_registers -clock clk] -to player1score_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '31' 'OUT' port 'player1score_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '32' 'OUT' port 'player2score_rsc_z'"
+      set_output_delay -design rtl -clock clk 0.0 player2score_rsc_z
+      report_timing -from [all_registers -clock clk] -to player2score_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '0' 'INOUT' CLOCK 'clk' '32' 'OUT' port 'player2score_rsc_z'"
+   }
+
+   set regs_restart_rsc_z [all_registers -clock {restart_rsc_z}]
+   if { [llength ${regs_restart_rsc_z} ] > 0 } {
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 meteordirectionout_rsc_z(3:0)
+      report_timing -from [all_registers -clock restart_rsc_z] -to meteordirectionout_rsc_z(3:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '10' 'OUT' port 'meteordirectionout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 player1y_rsc_z(10:0)
+      report_timing -from [all_registers -clock restart_rsc_z] -to player1y_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '11' 'OUT' port 'player1y_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 player2y_rsc_z(10:0)
+      report_timing -from [all_registers -clock restart_rsc_z] -to player2y_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '12' 'OUT' port 'player2y_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 meteorpxout_rsc_z(10:0)
+      report_timing -from [all_registers -clock restart_rsc_z] -to meteorpxout_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '13' 'OUT' port 'meteorpxout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 meteorpyout_rsc_z(10:0)
+      report_timing -from [all_registers -clock restart_rsc_z] -to meteorpyout_rsc_z(10:0) -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '14' 'OUT' port 'meteorpyout_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p1_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p1_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '15' 'OUT' port 'p1p1_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p2_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p2_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '16' 'OUT' port 'p1p2_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p3_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p3_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '17' 'OUT' port 'p1p3_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p4_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p4_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '18' 'OUT' port 'p1p4_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p5_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p5_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '19' 'OUT' port 'p1p5_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p6_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p6_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '20' 'OUT' port 'p1p6_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p7_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p7_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '21' 'OUT' port 'p1p7_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p1p8_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p1p8_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '22' 'OUT' port 'p1p8_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p1_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p1_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '23' 'OUT' port 'p2p1_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p2_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p2_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '24' 'OUT' port 'p2p2_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p3_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p3_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '25' 'OUT' port 'p2p3_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p4_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p4_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '26' 'OUT' port 'p2p4_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p5_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p5_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '27' 'OUT' port 'p2p5_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p6_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p6_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '28' 'OUT' port 'p2p6_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p7_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p7_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '29' 'OUT' port 'p2p7_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 p2p8_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to p2p8_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '30' 'OUT' port 'p2p8_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 player1score_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to player1score_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '31' 'OUT' port 'player1score_rsc_z'"
+      puts "-- Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+      set_output_delay -design rtl -clock restart_rsc_z 0.0 player2score_rsc_z
+      report_timing -from [all_registers -clock restart_rsc_z] -to player2score_rsc_z -num_paths 1 -detail 
+      puts "-- END Synthesis register_to_output:timing report for design 'GameUnit' '1' 'IN' CLOCK 'restart_rsc_z' '32' 'OUT' port 'player2score_rsc_z'"
+   }
+
+   save_project
+}
+
+proc remove_sdf_annotate { infile outfile } {
+   if { ![file exists $infile] }  {
+      puts "Error - input file $infile not found"
+      return
+   }
+   set s [open $infile "r"]
+   set d [open $outfile "w"]
+   while { ! [eof $s] } {
+      gets $s line
+      if { [string match "*\$sdf_annotate*" $line] == 0 } {
+         puts $d $line
+      }
+   }
+   close $s
+   close $d
+}
+
+proc vendor_vars { vendor tech lang stage } {
+   # returns a list { netlist_output_directory netlist_file_suffix sdf_file_suffix sdf_inst sim_opts }
+      set SDFINST ""
+      switch -glob -- "${vendor}-${tech}" {
+         "Xilinx*" {
+            if { $stage == "gate" } {
+               set SDFINST scverify_top/rtl
+            }
+            if { $lang == "vhdl" } {
+               return [list VNDR_NETDIR . VNDR_NETSUF _out.vhd VNDR_SDFSUF _out.sdf VNDR_SDFINST $SDFINST]
+            } else {
+               return [list VLOG_OPTS \$(XILINX)/verilog/src/glbl.v SIM_OPTS glbl VNDR_NETDIR . VNDR_NETSUF _out.v VNDR_SDFSUF _out.sdf VNDR_SDFINST $SDFINST]
+            }
+         }
+         "Altera*" {
+            if { $stage == "gate" } {
+               set SDFINST scverify_top/rtl
+            }
+            if { $lang == "vhdl" } {
+               return [list VNDR_NETDIR simulation/modelsim VNDR_NETSUF .vho VNDR_SDFSUF _vhd.sdo VNDR_SDFINST $SDFINST]
+            } else {
+               return [list VNDR_NETDIR simulation/modelsim VNDR_NETSUF .vo VNDR_SDFSUF _v.sdo VNDR_SDFINST $SDFINST]
+            }
+         }
+      }
+   }
+proc run_gate { args } {
+   puts "PROC run_gate $args - enable_run_pnr=1"
+   place_and_route cl
+   save_project
+   puts "-- Synthesis design report for design 'GameUnit'"
+   puts "-- Implementation directory: [MGS_Core::get_design_impls -active]"
+   puts "-- END Synthesis design report for design 'GameUnit'"
+}
+
+proc run_flow { argv } {
+   global gui_mode
+   array set db $argv
+   if {[info exists db(-run_state)]} {
+       set db(run_state) $db(-run_state)
+   }
+   if {![info exists db(run_state)]} {
+       set db(run_state) {mapped}
+   }
+
+   if {$db(run_state) == {setup} || ![file exists ./psr_v.psp] || [catch {open_project ./psr_v.psp}]} {
+       run_setup
+   }
+   # verify that addio option is correct in the project
+   if { [string is true [report_project -addio]] != [string is true true] } {
+       puts "Note: Adjusting -addio constraint to true for proper mapped/gate simulation"
+       setup_design -addio=true
+       compile
+       run_mapped
+   }
+   if {$db(run_state) == {setup}} return
+
+   if {![info exists db(gui_mode)] || !$db(gui_mode) } {
+       set cstate [get_state]
+       if {$cstate != {synthesized} && $cstate != {pnr} } run_mapped
+       if {$db(run_state) == {mapped}} {
+          set mapped_netlist [file join //icnas2.cc.ic.ac.uk/apl115/RealFPGA/Project/GameUnit/Catapult/GameUnit.v27 mapped.v]
+          puts "-- Writing mapped netlist for 'GameUnit' to file '$mapped_netlist'"
+          auto_write $mapped_netlist
+          return
+       }
+
+       if {[get_state] != {pnr}} run_gate
+       if {$db(run_state) == {gate}} {
+          set gate_netlist [file join //icnas2.cc.ic.ac.uk/apl115/RealFPGA/Project/GameUnit/Catapult/GameUnit.v27 gate.v]
+          set gate_sdf [file join //icnas2.cc.ic.ac.uk/apl115/RealFPGA/Project/GameUnit/Catapult/GameUnit.v27 gate.v.sdf]
+          set IMPL_DIR [MGS_Core::get_design_impls -active]
+          set DESIGNNAME [report_project -basename]
+          set vendor [report_project -manufacturer]
+          set tech [report_project -libname]
+          set lang v
+          set vendor_var_list [vendor_vars $vendor $tech $lang "gate"]
+          foreach { vname vval } $vendor_var_list {
+             set $vname $vval
+          }
+          set NETLIST_FILE ${IMPL_DIR}/${VNDR_NETDIR}/${DESIGNNAME}${VNDR_NETSUF}
+          if { $lang == "v" } {
+             puts "Copying vendor netlist '$NETLIST_FILE' to '$gate_netlist'"
+             remove_sdf_annotate $NETLIST_FILE $gate_netlist
+          } else {
+             puts "Copying vendor netlist '$NETLIST_FILE' to '$gate_netlist'"
+             file copy -force $NETLIST_FILE $gate_netlist
+          }
+          set NETLIST_SDF ${IMPL_DIR}/${VNDR_NETDIR}/${DESIGNNAME}${VNDR_SDFSUF}
+          puts "Copying SDF file '$NETLIST_SDF' to '$gate_sdf'"
+          file copy -force $NETLIST_SDF $gate_sdf
+          return
+       }
+
+   }
+}
+run_flow [expr {[info exists argv]?$argv:{}}]

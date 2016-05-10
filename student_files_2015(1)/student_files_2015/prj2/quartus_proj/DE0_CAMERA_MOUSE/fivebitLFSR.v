@@ -1,0 +1,10 @@
+module fivebitLFSR(clk, d);
+input clk;
+output d;
+
+reg [4:0] d;
+always @(posedge clk) begin
+    d <= { d[3:0], d[4] ^ d[3] };
+end
+
+endmodule

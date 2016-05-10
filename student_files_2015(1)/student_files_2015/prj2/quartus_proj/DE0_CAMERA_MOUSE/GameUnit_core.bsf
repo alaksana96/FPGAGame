@@ -1,0 +1,267 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 480 448)
+	(text "GameUnit_core" (rect 5 0 68 12)(font "Arial" ))
+	(text "inst" (rect 8 416 20 428)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 10 12)(font "Arial" ))
+		(text "clk" (rect 21 27 31 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "rst" (rect 0 0 10 12)(font "Arial" ))
+		(text "rst" (rect 21 43 31 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "restart_rsc_mgc_in_wire_d" (rect 0 0 112 12)(font "Arial" ))
+		(text "restart_rsc_mgc_in_wire_d" (rect 21 59 133 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "random_rsc_mgc_in_wire_d[15..0]" (rect 0 0 140 12)(font "Arial" ))
+		(text "random_rsc_mgc_in_wire_d[15..0]" (rect 21 75 161 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "redobjecty_rsc_mgc_in_wire_d[10..0]" (rect 0 0 151 12)(font "Arial" ))
+		(text "redobjecty_rsc_mgc_in_wire_d[10..0]" (rect 21 91 172 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 3))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "blueobjecty_rsc_mgc_in_wire_d[10..0]" (rect 0 0 153 12)(font "Arial" ))
+		(text "blueobjecty_rsc_mgc_in_wire_d[10..0]" (rect 21 107 174 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "meteorpx_rsc_mgc_in_wire_d[10..0]" (rect 0 0 147 12)(font "Arial" ))
+		(text "meteorpx_rsc_mgc_in_wire_d[10..0]" (rect 21 123 168 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 3))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "meteorpy_rsc_mgc_in_wire_d[10..0]" (rect 0 0 148 12)(font "Arial" ))
+		(text "meteorpy_rsc_mgc_in_wire_d[10..0]" (rect 21 139 169 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "meteordirectionin_rsc_mgc_in_wire_d[3..0]" (rect 0 0 172 12)(font "Arial" ))
+		(text "meteordirectionin_rsc_mgc_in_wire_d[3..0]" (rect 21 155 193 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "p1planets_rsc_mgc_in_wire_d[7..0]" (rect 0 0 141 12)(font "Arial" ))
+		(text "p1planets_rsc_mgc_in_wire_d[7..0]" (rect 21 171 162 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "p2planets_rsc_mgc_in_wire_d[7..0]" (rect 0 0 142 12)(font "Arial" ))
+		(text "p2planets_rsc_mgc_in_wire_d[7..0]" (rect 21 187 163 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 3))
+	)
+	(port
+		(pt 464 32)
+		(output)
+		(text "meteordirectionout_rsc_mgc_out_stdreg_d[3..0]" (rect 0 0 193 12)(font "Arial" ))
+		(text "meteordirectionout_rsc_mgc_out_stdreg_d[3..0]" (rect 250 27 443 39)(font "Arial" ))
+		(line (pt 464 32)(pt 448 32)(line_width 3))
+	)
+	(port
+		(pt 464 48)
+		(output)
+		(text "player1y_rsc_mgc_out_stdreg_d[10..0]" (rect 0 0 159 12)(font "Arial" ))
+		(text "player1y_rsc_mgc_out_stdreg_d[10..0]" (rect 284 43 443 55)(font "Arial" ))
+		(line (pt 464 48)(pt 448 48)(line_width 3))
+	)
+	(port
+		(pt 464 64)
+		(output)
+		(text "player2y_rsc_mgc_out_stdreg_d[10..0]" (rect 0 0 160 12)(font "Arial" ))
+		(text "player2y_rsc_mgc_out_stdreg_d[10..0]" (rect 283 59 443 71)(font "Arial" ))
+		(line (pt 464 64)(pt 448 64)(line_width 3))
+	)
+	(port
+		(pt 464 80)
+		(output)
+		(text "meteorpxout_rsc_mgc_out_stdreg_d[10..0]" (rect 0 0 174 12)(font "Arial" ))
+		(text "meteorpxout_rsc_mgc_out_stdreg_d[10..0]" (rect 269 75 443 87)(font "Arial" ))
+		(line (pt 464 80)(pt 448 80)(line_width 3))
+	)
+	(port
+		(pt 464 96)
+		(output)
+		(text "meteorpyout_rsc_mgc_out_stdreg_d[10..0]" (rect 0 0 175 12)(font "Arial" ))
+		(text "meteorpyout_rsc_mgc_out_stdreg_d[10..0]" (rect 268 91 443 103)(font "Arial" ))
+		(line (pt 464 96)(pt 448 96)(line_width 3))
+	)
+	(port
+		(pt 464 112)
+		(output)
+		(text "p1p1_rsc_mgc_out_stdreg_d" (rect 0 0 118 12)(font "Arial" ))
+		(text "p1p1_rsc_mgc_out_stdreg_d" (rect 325 107 443 119)(font "Arial" ))
+		(line (pt 464 112)(pt 448 112)(line_width 1))
+	)
+	(port
+		(pt 464 128)
+		(output)
+		(text "p1p2_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p2_rsc_mgc_out_stdreg_d" (rect 324 123 443 135)(font "Arial" ))
+		(line (pt 464 128)(pt 448 128)(line_width 1))
+	)
+	(port
+		(pt 464 144)
+		(output)
+		(text "p1p3_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p3_rsc_mgc_out_stdreg_d" (rect 324 139 443 151)(font "Arial" ))
+		(line (pt 464 144)(pt 448 144)(line_width 1))
+	)
+	(port
+		(pt 464 160)
+		(output)
+		(text "p1p4_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p1p4_rsc_mgc_out_stdreg_d" (rect 323 155 443 167)(font "Arial" ))
+		(line (pt 464 160)(pt 448 160)(line_width 1))
+	)
+	(port
+		(pt 464 176)
+		(output)
+		(text "p1p5_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p5_rsc_mgc_out_stdreg_d" (rect 324 171 443 183)(font "Arial" ))
+		(line (pt 464 176)(pt 448 176)(line_width 1))
+	)
+	(port
+		(pt 464 192)
+		(output)
+		(text "p1p6_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p6_rsc_mgc_out_stdreg_d" (rect 324 187 443 199)(font "Arial" ))
+		(line (pt 464 192)(pt 448 192)(line_width 1))
+	)
+	(port
+		(pt 464 208)
+		(output)
+		(text "p1p7_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p7_rsc_mgc_out_stdreg_d" (rect 324 203 443 215)(font "Arial" ))
+		(line (pt 464 208)(pt 448 208)(line_width 1))
+	)
+	(port
+		(pt 464 224)
+		(output)
+		(text "p1p8_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p1p8_rsc_mgc_out_stdreg_d" (rect 324 219 443 231)(font "Arial" ))
+		(line (pt 464 224)(pt 448 224)(line_width 1))
+	)
+	(port
+		(pt 464 240)
+		(output)
+		(text "p2p1_rsc_mgc_out_stdreg_d" (rect 0 0 119 12)(font "Arial" ))
+		(text "p2p1_rsc_mgc_out_stdreg_d" (rect 324 235 443 247)(font "Arial" ))
+		(line (pt 464 240)(pt 448 240)(line_width 1))
+	)
+	(port
+		(pt 464 256)
+		(output)
+		(text "p2p2_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p2_rsc_mgc_out_stdreg_d" (rect 323 251 443 263)(font "Arial" ))
+		(line (pt 464 256)(pt 448 256)(line_width 1))
+	)
+	(port
+		(pt 464 272)
+		(output)
+		(text "p2p3_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p3_rsc_mgc_out_stdreg_d" (rect 323 267 443 279)(font "Arial" ))
+		(line (pt 464 272)(pt 448 272)(line_width 1))
+	)
+	(port
+		(pt 464 288)
+		(output)
+		(text "p2p4_rsc_mgc_out_stdreg_d" (rect 0 0 121 12)(font "Arial" ))
+		(text "p2p4_rsc_mgc_out_stdreg_d" (rect 322 283 443 295)(font "Arial" ))
+		(line (pt 464 288)(pt 448 288)(line_width 1))
+	)
+	(port
+		(pt 464 304)
+		(output)
+		(text "p2p5_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p5_rsc_mgc_out_stdreg_d" (rect 323 299 443 311)(font "Arial" ))
+		(line (pt 464 304)(pt 448 304)(line_width 1))
+	)
+	(port
+		(pt 464 320)
+		(output)
+		(text "p2p6_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p6_rsc_mgc_out_stdreg_d" (rect 323 315 443 327)(font "Arial" ))
+		(line (pt 464 320)(pt 448 320)(line_width 1))
+	)
+	(port
+		(pt 464 336)
+		(output)
+		(text "p2p7_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p7_rsc_mgc_out_stdreg_d" (rect 323 331 443 343)(font "Arial" ))
+		(line (pt 464 336)(pt 448 336)(line_width 1))
+	)
+	(port
+		(pt 464 352)
+		(output)
+		(text "p2p8_rsc_mgc_out_stdreg_d" (rect 0 0 120 12)(font "Arial" ))
+		(text "p2p8_rsc_mgc_out_stdreg_d" (rect 323 347 443 359)(font "Arial" ))
+		(line (pt 464 352)(pt 448 352)(line_width 1))
+	)
+	(port
+		(pt 464 368)
+		(output)
+		(text "player1score_rsc_mgc_out_stdreg_d" (rect 0 0 152 12)(font "Arial" ))
+		(text "player1score_rsc_mgc_out_stdreg_d" (rect 291 363 443 375)(font "Arial" ))
+		(line (pt 464 368)(pt 448 368)(line_width 1))
+	)
+	(port
+		(pt 464 384)
+		(output)
+		(text "player2score_rsc_mgc_out_stdreg_d" (rect 0 0 153 12)(font "Arial" ))
+		(text "player2score_rsc_mgc_out_stdreg_d" (rect 290 379 443 391)(font "Arial" ))
+		(line (pt 464 384)(pt 448 384)(line_width 1))
+	)
+	(drawing
+		(rectangle (rect 16 16 448 416)(line_width 1))
+	)
+)

@@ -1,0 +1,44 @@
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|ImageUnit:inst16|ImageUnit_core:ImageUnit_core_inst|ImageUnit_core_fsm:ImageUnit_core_fsm_inst|state_var
+Name state_var.st_main_3 state_var.st_main_2 state_var.st_main_1 state_var.st_main state_var.st_main_4 
+state_var.st_main 0 0 0 0 0 
+state_var.st_main_1 0 0 1 1 0 
+state_var.st_main_2 0 1 0 1 0 
+state_var.st_main_3 1 0 0 1 0 
+state_var.st_main_4 0 0 0 1 1 
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|redobject:inst2|redobject_core:redobject_core_inst|redobject_core_fsm:redobject_core_fsm_inst|state_var
+Name state_var.st_main_1 
+state_var.st_main 0 
+state_var.st_main_1 1 
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|blueobject:inst1|blueobject_core:blueobject_core_inst|blueobject_core_fsm:blueobject_core_fsm_inst|state_var
+Name state_var.st_main_1 
+state_var.st_main 0 
+state_var.st_main_1 1 
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|GameUnit:inst31|GameUnit_core:GameUnit_core_inst|GameUnit_core_fsm:GameUnit_core_fsm_inst|state_var
+Name state_var.st_main_9 state_var.st_main_8 state_var.st_main_7 state_var.st_main_6 state_var.st_main_5 state_var.st_main_4 state_var.st_main_3 state_var.st_main_2 state_var.st_main_1 state_var.st_main 
+state_var.st_main 0 0 0 0 0 0 0 0 0 0 
+state_var.st_main_1 0 0 0 0 0 0 0 0 1 1 
+state_var.st_main_2 0 0 0 0 0 0 0 1 0 1 
+state_var.st_main_3 0 0 0 0 0 0 1 0 0 1 
+state_var.st_main_4 0 0 0 0 0 1 0 0 0 1 
+state_var.st_main_5 0 0 0 0 1 0 0 0 0 1 
+state_var.st_main_6 0 0 0 1 0 0 0 0 0 1 
+state_var.st_main_7 0 0 1 0 0 0 0 0 0 1 
+state_var.st_main_8 0 1 0 0 0 0 0 0 0 1 
+state_var.st_main_9 1 0 0 0 0 0 0 0 0 1 
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|ps2:inst6|cur_state
+Name cur_state.trans cur_state.pulldat cur_state.pullclk cur_state.listen 
+cur_state.listen 0 0 0 0 
+cur_state.pullclk 0 0 1 1 
+cur_state.pulldat 0 1 0 1 
+cur_state.trans 1 0 0 1 
+
+State Machine - |TOP_DE0_CAMERA_MOUSE|DE0_D5M:inst|I2C_CCD_Config:u8|mSetup_ST
+Name mSetup_ST.0000 mSetup_ST.0010 mSetup_ST.0001 
+mSetup_ST.0000 0 0 0 
+mSetup_ST.0001 1 0 1 
+mSetup_ST.0010 1 1 0 

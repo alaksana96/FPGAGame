@@ -1,0 +1,75 @@
+
+# Loop constraints
+directive set /ImageUnit/core/main CSTEPS_FROM {{. == 5}}
+
+# IO operation constraints
+directive set /ImageUnit/core/main/vga_x:io_read(vga_x:rsc.d) CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/vga_y:io_read(vga_y:rsc.d) CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/p1y:io_read(p1y:rsc.d) CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/p2y:io_read(p2y:rsc.d) CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/bx:io_read(bx:rsc.d) CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/by:io_read(by:rsc.d) CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/p1planets:io_read(p1planets:rsc.d) CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/p2planets:io_read(p2planets:rsc.d) CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:else:else:io_read(RGB:rsc.d) CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/if:io_write(RGB_o:rsc.d)#1 CSTEPS_FROM {{.. == 4}}
+
+# Real operation constraints
+directive set /ImageUnit/core/main/acc CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/if:acc CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/if:acc#5 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/if:acc#2 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/if:acc#6 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/if:acc#4 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:acc CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:if:acc CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:if:acc#5 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:if:acc#2 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:if:acc#6 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:if:acc#4 CSTEPS_FROM {{.. == 1}}
+directive set /ImageUnit/core/main/else:else:if:acc#4 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#5 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#1 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#6 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#2 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#7 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:if:acc#3 CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:if:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:if:aif:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:if:if:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:if:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:else:if:else:else:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:else:else:if:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:else:aif:acc CSTEPS_FROM {{.. == 2}}
+directive set /ImageUnit/core/main/else:else:else:else:if:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 3}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:else:else:aif:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:else:else:if:else:else:else:else:else:else:else:if:acc CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/mux1h CSTEPS_FROM {{.. == 4}}
+directive set /ImageUnit/core/main/else:else:mux CSTEPS_FROM {{.. == 4}}

@@ -1,0 +1,1186 @@
+
+# Program: Catapult University Version
+# Version: 2011a.126
+#    File: Nlview netlist
+
+module new "blueobject:core:fsm" "orig"
+load port {clk} input -attr xrf 717 -attr oid 1 -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/clk}
+load port {rst} input -attr xrf 718 -attr oid 2 -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/rst}
+load portBus {fsm_output(1:0)} output 2 {fsm_output(1)} {fsm_output(0)} -attr xrf 719 -attr oid 3 -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/fsm_output}
+load net {clk} -attr xrf 720 -attr oid 4
+load net {clk} -port {clk} -attr xrf 721 -attr oid 5
+load net {rst} -attr xrf 722 -attr oid 6
+load net {rst} -port {rst} -attr xrf 723 -attr oid 7
+load net {fsm_output(0)} -attr vt d
+load net {fsm_output(1)} -attr vt d
+load netBundle {fsm_output} 2 {fsm_output(0)} {fsm_output(1)} -attr xrf 724 -attr oid 8 -attr vt d -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/fsm_output}
+load net {fsm_output(0)} -port {fsm_output(0)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/fsm_output}
+load net {fsm_output(1)} -port {fsm_output(1)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobject:core:fsm/fsm_output}
+### END MODULE 
+
+module new "blueobject:core" "orig"
+load port {clk} input -attr xrf 725 -attr oid 9 -attr vt d -attr @path {/blueobject/blueobject:core/clk}
+load port {rst} input -attr xrf 726 -attr oid 10 -attr vt d -attr @path {/blueobject/blueobject:core/rst}
+load port {VGA_VS:rsc:mgc_in_wire.d} input -attr xrf 727 -attr oid 11 -attr vt d -attr @path {/blueobject/blueobject:core/VGA_VS:rsc:mgc_in_wire.d}
+load portBus {vga_xy:rsc:mgc_in_wire.d(19:0)} input 20 {vga_xy:rsc:mgc_in_wire.d(19)} {vga_xy:rsc:mgc_in_wire.d(18)} {vga_xy:rsc:mgc_in_wire.d(17)} {vga_xy:rsc:mgc_in_wire.d(16)} {vga_xy:rsc:mgc_in_wire.d(15)} {vga_xy:rsc:mgc_in_wire.d(14)} {vga_xy:rsc:mgc_in_wire.d(13)} {vga_xy:rsc:mgc_in_wire.d(12)} {vga_xy:rsc:mgc_in_wire.d(11)} {vga_xy:rsc:mgc_in_wire.d(10)} {vga_xy:rsc:mgc_in_wire.d(9)} {vga_xy:rsc:mgc_in_wire.d(8)} {vga_xy:rsc:mgc_in_wire.d(7)} {vga_xy:rsc:mgc_in_wire.d(6)} {vga_xy:rsc:mgc_in_wire.d(5)} {vga_xy:rsc:mgc_in_wire.d(4)} {vga_xy:rsc:mgc_in_wire.d(3)} {vga_xy:rsc:mgc_in_wire.d(2)} {vga_xy:rsc:mgc_in_wire.d(1)} {vga_xy:rsc:mgc_in_wire.d(0)} -attr xrf 728 -attr oid 12 -attr vt d -attr @path {/blueobject/blueobject:core/vga_xy:rsc:mgc_in_wire.d}
+load portBus {video_in:rsc:mgc_in_wire.d(29:0)} input 30 {video_in:rsc:mgc_in_wire.d(29)} {video_in:rsc:mgc_in_wire.d(28)} {video_in:rsc:mgc_in_wire.d(27)} {video_in:rsc:mgc_in_wire.d(26)} {video_in:rsc:mgc_in_wire.d(25)} {video_in:rsc:mgc_in_wire.d(24)} {video_in:rsc:mgc_in_wire.d(23)} {video_in:rsc:mgc_in_wire.d(22)} {video_in:rsc:mgc_in_wire.d(21)} {video_in:rsc:mgc_in_wire.d(20)} {video_in:rsc:mgc_in_wire.d(19)} {video_in:rsc:mgc_in_wire.d(18)} {video_in:rsc:mgc_in_wire.d(17)} {video_in:rsc:mgc_in_wire.d(16)} {video_in:rsc:mgc_in_wire.d(15)} {video_in:rsc:mgc_in_wire.d(14)} {video_in:rsc:mgc_in_wire.d(13)} {video_in:rsc:mgc_in_wire.d(12)} {video_in:rsc:mgc_in_wire.d(11)} {video_in:rsc:mgc_in_wire.d(10)} {video_in:rsc:mgc_in_wire.d(9)} {video_in:rsc:mgc_in_wire.d(8)} {video_in:rsc:mgc_in_wire.d(7)} {video_in:rsc:mgc_in_wire.d(6)} {video_in:rsc:mgc_in_wire.d(5)} {video_in:rsc:mgc_in_wire.d(4)} {video_in:rsc:mgc_in_wire.d(3)} {video_in:rsc:mgc_in_wire.d(2)} {video_in:rsc:mgc_in_wire.d(1)} {video_in:rsc:mgc_in_wire.d(0)} -attr xrf 729 -attr oid 13 -attr vt d -attr @path {/blueobject/blueobject:core/video_in:rsc:mgc_in_wire.d}
+load portBus {player2y:rsc:mgc_out_stdreg.d(9:0)} output 10 {player2y:rsc:mgc_out_stdreg.d(9)} {player2y:rsc:mgc_out_stdreg.d(8)} {player2y:rsc:mgc_out_stdreg.d(7)} {player2y:rsc:mgc_out_stdreg.d(6)} {player2y:rsc:mgc_out_stdreg.d(5)} {player2y:rsc:mgc_out_stdreg.d(4)} {player2y:rsc:mgc_out_stdreg.d(3)} {player2y:rsc:mgc_out_stdreg.d(2)} {player2y:rsc:mgc_out_stdreg.d(1)} {player2y:rsc:mgc_out_stdreg.d(0)} -attr xrf 730 -attr oid 14 -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load symbol "blueobject:core:fsm" "orig" GEN \
+     port {clk#1} input \
+     port {rst#1} input \
+     portBus {fsm_output(1:0)} output 2 {fsm_output(1)} {fsm_output(0)} \
+
+load symbol "and(3,1)" "INTERFACE" AND boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {A2(0:0)} input 1 {A2(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "not(1)" "INTERFACE" INV boxcolor 0 \
+     portBus {A(0:0)} input 1 {A(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "and(4,1)" "INTERFACE" AND boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {A2(0:0)} input 1 {A2(0)} \
+     portBus {A3(0:0)} input 1 {A3(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "or(4,1)" "INTERFACE" OR boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {A2(0:0)} input 1 {A2(0)} \
+     portBus {A3(0:0)} input 1 {A3(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "mux1h(3,10)" "INTERFACE" GEN boxcolor 0 \
+     portBus {A0(9:0)} input 10 {A0(9)} {A0(8)} {A0(7)} {A0(6)} {A0(5)} {A0(4)} {A0(3)} {A0(2)} {A0(1)} {A0(0)} \
+     portBus {A1(9:0)} input 10 {A1(9)} {A1(8)} {A1(7)} {A1(6)} {A1(5)} {A1(4)} {A1(3)} {A1(2)} {A1(1)} {A1(0)} \
+     portBus {A2(9:0)} input 10 {A2(9)} {A2(8)} {A2(7)} {A2(6)} {A2(5)} {A2(4)} {A2(3)} {A2(2)} {A2(1)} {A2(0)} \
+     port {S0} input \
+     port {S1} input \
+     port {S2} input \
+     portBus {Z(9:0)} output 10 {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "reg(10,1,0,0,1)" "INTERFACE" GEN boxcolor 1 \
+     portBus {D(9:0)} input 10 {D(9)} {D(8)} {D(7)} {D(6)} {D(5)} {D(4)} {D(3)} {D(2)} {D(1)} {D(0)} \
+     portBus {DRs(9:0)} input 10 {DRs(9)} {DRs(8)} {DRs(7)} {DRs(6)} {DRs(5)} {DRs(4)} {DRs(3)} {DRs(2)} {DRs(1)} {DRs(0)} \
+     port {clk} input.clk \
+     portBus {Rs(0:0)} input 1 {Rs(0)} \
+     portBus {Z(9:0)} output 10 {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "nor(3,1)" "INTERFACE" NOR boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {A2(0:0)} input 1 {A2(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "or(2,1)" "INTERFACE" OR boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "mux(2,10)" "INTERFACE" MUX boxcolor 0 \
+     portBus {A0(9:0)} input 10 {A0(9)} {A0(8)} {A0(7)} {A0(6)} {A0(5)} {A0(4)} {A0(3)} {A0(2)} {A0(1)} {A0(0)} \
+     portBus {A1(9:0)} input 10 {A1(9)} {A1(8)} {A1(7)} {A1(6)} {A1(5)} {A1(4)} {A1(3)} {A1(2)} {A1(1)} {A1(0)} \
+     portBus {S(0:0)} input.top 1 {S(0)} \
+     portBus {Z(9:0)} output 10 {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "or(3,1)" "INTERFACE" OR boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {A2(0:0)} input 1 {A2(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "and(2,1)" "INTERFACE" AND boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "mux(2,1)" "INTERFACE" MUX boxcolor 0 \
+     portBus {A0(0:0)} input 1 {A0(0)} \
+     portBus {A1(0:0)} input 1 {A1(0)} \
+     portBus {S(0:0)} input.top 1 {S(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "reg(1,1,0,0,1)" "INTERFACE" GEN boxcolor 1 \
+     portBus {D(0:0)} input 1 {D(0)} \
+     portBus {DRs(0:0)} input 1 {DRs(0)} \
+     port {clk} input.clk \
+     portBus {Rs(0:0)} input 1 {Rs(0)} \
+     portBus {Z(0:0)} output 1 {Z(0)} \
+
+load symbol "add(10,-1,7,1,10)" "INTERFACE" RTL(+) boxcolor 0 \
+     portBus {A(9:0)} input 10 {A(9)} {A(8)} {A(7)} {A(6)} {A(5)} {A(4)} {A(3)} {A(2)} {A(1)} {A(0)} \
+     portBus {B(6:0)} input 7 {B(6)} {B(5)} {B(4)} {B(3)} {B(2)} {B(1)} {B(0)} \
+     portBus {Z(9:0)} output 10 {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "add(8,0,8,1,9)" "INTERFACE" RTL(+) boxcolor 0 \
+     portBus {A(7:0)} input 8 {A(7)} {A(6)} {A(5)} {A(4)} {A(3)} {A(2)} {A(1)} {A(0)} \
+     portBus {B(7:0)} input 8 {B(7)} {B(6)} {B(5)} {B(4)} {B(3)} {B(2)} {B(1)} {B(0)} \
+     portBus {Z(8:0)} output 9 {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "not(10)" "INTERFACE" INV boxcolor 0 \
+     portBus {A(9:0)} input 10 {A(9)} {A(8)} {A(7)} {A(6)} {A(5)} {A(4)} {A(3)} {A(2)} {A(1)} {A(0)} \
+     portBus {Z(9:0)} output 10 {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load symbol "add(11,-1,9,0,11)" "INTERFACE" RTL(+) boxcolor 0 \
+     portBus {A(10:0)} input 11 {A(10)} {A(9)} {A(8)} {A(7)} {A(6)} {A(5)} {A(4)} {A(3)} {A(2)} {A(1)} {A(0)} \
+     portBus {B(8:0)} input 9 {B(8)} {B(7)} {B(6)} {B(5)} {B(4)} {B(3)} {B(2)} {B(1)} {B(0)} \
+     portBus {Z(10:0)} output 11 {Z(10)} {Z(9)} {Z(8)} {Z(7)} {Z(6)} {Z(5)} {Z(4)} {Z(3)} {Z(2)} {Z(1)} {Z(0)} \
+
+load net {blueobjy.sva(0)} -attr vt d
+load net {blueobjy.sva(1)} -attr vt d
+load net {blueobjy.sva(2)} -attr vt d
+load net {blueobjy.sva(3)} -attr vt d
+load net {blueobjy.sva(4)} -attr vt d
+load net {blueobjy.sva(5)} -attr vt d
+load net {blueobjy.sva(6)} -attr vt d
+load net {blueobjy.sva(7)} -attr vt d
+load net {blueobjy.sva(8)} -attr vt d
+load net {blueobjy.sva(9)} -attr vt d
+load netBundle {blueobjy.sva} 10 {blueobjy.sva(0)} {blueobjy.sva(1)} {blueobjy.sva(2)} {blueobjy.sva(3)} {blueobjy.sva(4)} {blueobjy.sva(5)} {blueobjy.sva(6)} {blueobjy.sva(7)} {blueobjy.sva(8)} {blueobjy.sva(9)} -attr xrf 731 -attr oid 15 -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {vga_y.sva(0)} -attr vt d
+load net {vga_y.sva(1)} -attr vt d
+load net {vga_y.sva(2)} -attr vt d
+load net {vga_y.sva(3)} -attr vt d
+load net {vga_y.sva(4)} -attr vt d
+load net {vga_y.sva(5)} -attr vt d
+load net {vga_y.sva(6)} -attr vt d
+load net {vga_y.sva(7)} -attr vt d
+load net {vga_y.sva(8)} -attr vt d
+load net {vga_y.sva(9)} -attr vt d
+load netBundle {vga_y.sva} 10 {vga_y.sva(0)} {vga_y.sva(1)} {vga_y.sva(2)} {vga_y.sva(3)} {vga_y.sva(4)} {vga_y.sva(5)} {vga_y.sva(6)} {vga_y.sva(7)} {vga_y.sva(8)} {vga_y.sva(9)} -attr xrf 732 -attr oid 16 -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {mux1h.itm(0)} -attr vt d
+load net {mux1h.itm(1)} -attr vt d
+load net {mux1h.itm(2)} -attr vt d
+load net {mux1h.itm(3)} -attr vt d
+load net {mux1h.itm(4)} -attr vt d
+load net {mux1h.itm(5)} -attr vt d
+load net {mux1h.itm(6)} -attr vt d
+load net {mux1h.itm(7)} -attr vt d
+load net {mux1h.itm(8)} -attr vt d
+load net {mux1h.itm(9)} -attr vt d
+load netBundle {mux1h.itm} 10 {mux1h.itm(0)} {mux1h.itm(1)} {mux1h.itm(2)} {mux1h.itm(3)} {mux1h.itm(4)} {mux1h.itm(5)} {mux1h.itm(6)} {mux1h.itm(7)} {mux1h.itm(8)} {mux1h.itm(9)} -attr xrf 733 -attr oid 17 -attr vt d -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux#1.itm(0)} -attr vt d
+load net {mux#1.itm(1)} -attr vt d
+load net {mux#1.itm(2)} -attr vt d
+load net {mux#1.itm(3)} -attr vt d
+load net {mux#1.itm(4)} -attr vt d
+load net {mux#1.itm(5)} -attr vt d
+load net {mux#1.itm(6)} -attr vt d
+load net {mux#1.itm(7)} -attr vt d
+load net {mux#1.itm(8)} -attr vt d
+load net {mux#1.itm(9)} -attr vt d
+load netBundle {mux#1.itm} 10 {mux#1.itm(0)} {mux#1.itm(1)} {mux#1.itm(2)} {mux#1.itm(3)} {mux#1.itm(4)} {mux#1.itm(5)} {mux#1.itm(6)} {mux#1.itm(7)} {mux#1.itm(8)} {mux#1.itm(9)} -attr xrf 734 -attr oid 18 -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {slc#1.itm(0)} -attr vt d
+load net {slc#1.itm(1)} -attr vt d
+load net {slc#1.itm(2)} -attr vt d
+load net {slc#1.itm(3)} -attr vt d
+load net {slc#1.itm(4)} -attr vt d
+load net {slc#1.itm(5)} -attr vt d
+load net {slc#1.itm(6)} -attr vt d
+load net {slc#1.itm(7)} -attr vt d
+load net {slc#1.itm(8)} -attr vt d
+load net {slc#1.itm(9)} -attr vt d
+load netBundle {slc#1.itm} 10 {slc#1.itm(0)} {slc#1.itm(1)} {slc#1.itm(2)} {slc#1.itm(3)} {slc#1.itm(4)} {slc#1.itm(5)} {slc#1.itm(6)} {slc#1.itm(7)} {slc#1.itm(8)} {slc#1.itm(9)} -attr xrf 735 -attr oid 19 -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {slc#6.itm(0)} -attr vt d
+load net {slc#6.itm(1)} -attr vt d
+load net {slc#6.itm(2)} -attr vt d
+load net {slc#6.itm(3)} -attr vt d
+load net {slc#6.itm(4)} -attr vt d
+load net {slc#6.itm(5)} -attr vt d
+load net {slc#6.itm(6)} -attr vt d
+load net {slc#6.itm(7)} -attr vt d
+load netBundle {slc#6.itm} 8 {slc#6.itm(0)} {slc#6.itm(1)} {slc#6.itm(2)} {slc#6.itm(3)} {slc#6.itm(4)} {slc#6.itm(5)} {slc#6.itm(6)} {slc#6.itm(7)} -attr xrf 736 -attr oid 20 -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {conc.itm(0)} -attr vt d
+load net {conc.itm(1)} -attr vt d
+load net {conc.itm(2)} -attr vt d
+load net {conc.itm(3)} -attr vt d
+load net {conc.itm(4)} -attr vt d
+load net {conc.itm(5)} -attr vt d
+load net {conc.itm(6)} -attr vt d
+load net {conc.itm(7)} -attr vt d
+load net {conc.itm(8)} -attr vt d
+load net {conc.itm(9)} -attr vt d
+load net {conc.itm(10)} -attr vt d
+load netBundle {conc.itm} 11 {conc.itm(0)} {conc.itm(1)} {conc.itm(2)} {conc.itm(3)} {conc.itm(4)} {conc.itm(5)} {conc.itm(6)} {conc.itm(7)} {conc.itm(8)} {conc.itm(9)} {conc.itm(10)} -attr xrf 737 -attr oid 21 -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(0)} -attr vt d
+load net {aif:not#1.itm(1)} -attr vt d
+load net {aif:not#1.itm(2)} -attr vt d
+load net {aif:not#1.itm(3)} -attr vt d
+load net {aif:not#1.itm(4)} -attr vt d
+load net {aif:not#1.itm(5)} -attr vt d
+load net {aif:not#1.itm(6)} -attr vt d
+load net {aif:not#1.itm(7)} -attr vt d
+load net {aif:not#1.itm(8)} -attr vt d
+load net {aif:not#1.itm(9)} -attr vt d
+load netBundle {aif:not#1.itm} 10 {aif:not#1.itm(0)} {aif:not#1.itm(1)} {aif:not#1.itm(2)} {aif:not#1.itm(3)} {aif:not#1.itm(4)} {aif:not#1.itm(5)} {aif:not#1.itm(6)} {aif:not#1.itm(7)} {aif:not#1.itm(8)} {aif:not#1.itm(9)} -attr xrf 738 -attr oid 22 -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {slc#7.itm(0)} -attr vt d
+load net {slc#7.itm(1)} -attr vt d
+load net {slc#7.itm(2)} -attr vt d
+load net {slc#7.itm(3)} -attr vt d
+load net {slc#7.itm(4)} -attr vt d
+load net {slc#7.itm(5)} -attr vt d
+load net {slc#7.itm(6)} -attr vt d
+load net {slc#7.itm(7)} -attr vt d
+load net {slc#7.itm(8)} -attr vt d
+load net {slc#7.itm(9)} -attr vt d
+load netBundle {slc#7.itm} 10 {slc#7.itm(0)} {slc#7.itm(1)} {slc#7.itm(2)} {slc#7.itm(3)} {slc#7.itm(4)} {slc#7.itm(5)} {slc#7.itm(6)} {slc#7.itm(7)} {slc#7.itm(8)} {slc#7.itm(9)} -attr xrf 739 -attr oid 23 -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {conc#4.itm(0)} -attr vt d
+load net {conc#4.itm(1)} -attr vt d
+load net {conc#4.itm(2)} -attr vt d
+load net {conc#4.itm(3)} -attr vt d
+load net {conc#4.itm(4)} -attr vt d
+load net {conc#4.itm(5)} -attr vt d
+load net {conc#4.itm(6)} -attr vt d
+load net {conc#4.itm(7)} -attr vt d
+load net {conc#4.itm(8)} -attr vt d
+load net {conc#4.itm(9)} -attr vt d
+load net {conc#4.itm(10)} -attr vt d
+load netBundle {conc#4.itm} 11 {conc#4.itm(0)} {conc#4.itm(1)} {conc#4.itm(2)} {conc#4.itm(3)} {conc#4.itm(4)} {conc#4.itm(5)} {conc#4.itm(6)} {conc#4.itm(7)} {conc#4.itm(8)} {conc#4.itm(9)} {conc#4.itm(10)} -attr xrf 740 -attr oid 24 -attr vt d -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(0)} -attr vt d
+load net {not#1.itm(1)} -attr vt d
+load net {not#1.itm(2)} -attr vt d
+load net {not#1.itm(3)} -attr vt d
+load net {not#1.itm(4)} -attr vt d
+load net {not#1.itm(5)} -attr vt d
+load net {not#1.itm(6)} -attr vt d
+load net {not#1.itm(7)} -attr vt d
+load net {not#1.itm(8)} -attr vt d
+load net {not#1.itm(9)} -attr vt d
+load netBundle {not#1.itm} 10 {not#1.itm(0)} {not#1.itm(1)} {not#1.itm(2)} {not#1.itm(3)} {not#1.itm(4)} {not#1.itm(5)} {not#1.itm(6)} {not#1.itm(7)} {not#1.itm(8)} {not#1.itm(9)} -attr xrf 741 -attr oid 25 -attr vt d -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {slc#5.itm(0)} -attr vt d
+load net {slc#5.itm(1)} -attr vt d
+load net {slc#5.itm(2)} -attr vt d
+load net {slc#5.itm(3)} -attr vt d
+load net {slc#5.itm(4)} -attr vt d
+load net {slc#5.itm(5)} -attr vt d
+load net {slc#5.itm(6)} -attr vt d
+load net {slc#5.itm(7)} -attr vt d
+load net {slc#5.itm(8)} -attr vt d
+load net {slc#5.itm(9)} -attr vt d
+load netBundle {slc#5.itm} 10 {slc#5.itm(0)} {slc#5.itm(1)} {slc#5.itm(2)} {slc#5.itm(3)} {slc#5.itm(4)} {slc#5.itm(5)} {slc#5.itm(6)} {slc#5.itm(7)} {slc#5.itm(8)} {slc#5.itm(9)} -attr xrf 742 -attr oid 26 -attr vt d -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {clk} -attr xrf 743 -attr oid 27
+load net {clk} -port {clk} -attr xrf 744 -attr oid 28
+load net {rst} -attr xrf 745 -attr oid 29
+load net {rst} -port {rst} -attr xrf 746 -attr oid 30
+load net {VGA_VS:rsc:mgc_in_wire.d} -attr xrf 747 -attr oid 31 -attr vt d
+load net {VGA_VS:rsc:mgc_in_wire.d} -port {VGA_VS:rsc:mgc_in_wire.d} -attr xrf 748 -attr oid 32 -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(0)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(1)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(2)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(3)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(4)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(5)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(6)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(7)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(8)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(9)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(10)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(11)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(12)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(13)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(14)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(15)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(16)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(17)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(18)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(19)} -attr vt d
+load netBundle {vga_xy:rsc:mgc_in_wire.d} 20 {vga_xy:rsc:mgc_in_wire.d(0)} {vga_xy:rsc:mgc_in_wire.d(1)} {vga_xy:rsc:mgc_in_wire.d(2)} {vga_xy:rsc:mgc_in_wire.d(3)} {vga_xy:rsc:mgc_in_wire.d(4)} {vga_xy:rsc:mgc_in_wire.d(5)} {vga_xy:rsc:mgc_in_wire.d(6)} {vga_xy:rsc:mgc_in_wire.d(7)} {vga_xy:rsc:mgc_in_wire.d(8)} {vga_xy:rsc:mgc_in_wire.d(9)} {vga_xy:rsc:mgc_in_wire.d(10)} {vga_xy:rsc:mgc_in_wire.d(11)} {vga_xy:rsc:mgc_in_wire.d(12)} {vga_xy:rsc:mgc_in_wire.d(13)} {vga_xy:rsc:mgc_in_wire.d(14)} {vga_xy:rsc:mgc_in_wire.d(15)} {vga_xy:rsc:mgc_in_wire.d(16)} {vga_xy:rsc:mgc_in_wire.d(17)} {vga_xy:rsc:mgc_in_wire.d(18)} {vga_xy:rsc:mgc_in_wire.d(19)} -attr xrf 749 -attr oid 33 -attr vt d -attr @path {/blueobject/blueobject:core/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d(0)} -port {vga_xy:rsc:mgc_in_wire.d(0)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(1)} -port {vga_xy:rsc:mgc_in_wire.d(1)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(2)} -port {vga_xy:rsc:mgc_in_wire.d(2)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(3)} -port {vga_xy:rsc:mgc_in_wire.d(3)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(4)} -port {vga_xy:rsc:mgc_in_wire.d(4)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(5)} -port {vga_xy:rsc:mgc_in_wire.d(5)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(6)} -port {vga_xy:rsc:mgc_in_wire.d(6)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(7)} -port {vga_xy:rsc:mgc_in_wire.d(7)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(8)} -port {vga_xy:rsc:mgc_in_wire.d(8)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(9)} -port {vga_xy:rsc:mgc_in_wire.d(9)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(10)} -port {vga_xy:rsc:mgc_in_wire.d(10)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(11)} -port {vga_xy:rsc:mgc_in_wire.d(11)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(12)} -port {vga_xy:rsc:mgc_in_wire.d(12)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(13)} -port {vga_xy:rsc:mgc_in_wire.d(13)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(14)} -port {vga_xy:rsc:mgc_in_wire.d(14)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(15)} -port {vga_xy:rsc:mgc_in_wire.d(15)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(16)} -port {vga_xy:rsc:mgc_in_wire.d(16)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(17)} -port {vga_xy:rsc:mgc_in_wire.d(17)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(18)} -port {vga_xy:rsc:mgc_in_wire.d(18)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d(19)} -port {vga_xy:rsc:mgc_in_wire.d(19)} -attr vt d
+load netBundle {vga_xy:rsc:mgc_in_wire.d} 20 {vga_xy:rsc:mgc_in_wire.d(0)} {vga_xy:rsc:mgc_in_wire.d(1)} {vga_xy:rsc:mgc_in_wire.d(2)} {vga_xy:rsc:mgc_in_wire.d(3)} {vga_xy:rsc:mgc_in_wire.d(4)} {vga_xy:rsc:mgc_in_wire.d(5)} {vga_xy:rsc:mgc_in_wire.d(6)} {vga_xy:rsc:mgc_in_wire.d(7)} {vga_xy:rsc:mgc_in_wire.d(8)} {vga_xy:rsc:mgc_in_wire.d(9)} {vga_xy:rsc:mgc_in_wire.d(10)} {vga_xy:rsc:mgc_in_wire.d(11)} {vga_xy:rsc:mgc_in_wire.d(12)} {vga_xy:rsc:mgc_in_wire.d(13)} {vga_xy:rsc:mgc_in_wire.d(14)} {vga_xy:rsc:mgc_in_wire.d(15)} {vga_xy:rsc:mgc_in_wire.d(16)} {vga_xy:rsc:mgc_in_wire.d(17)} {vga_xy:rsc:mgc_in_wire.d(18)} {vga_xy:rsc:mgc_in_wire.d(19)} -attr xrf 750 -attr oid 34 -attr vt d -attr @path {/blueobject/blueobject:core/vga_xy:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d(0)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(1)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(2)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(3)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(4)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(5)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(6)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(7)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(8)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(9)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(10)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(11)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(12)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(13)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(14)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(15)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(16)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(17)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(18)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(19)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(20)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(21)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(22)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(23)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(24)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(25)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(26)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(27)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(28)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(29)} -attr vt d
+load netBundle {video_in:rsc:mgc_in_wire.d} 30 {video_in:rsc:mgc_in_wire.d(0)} {video_in:rsc:mgc_in_wire.d(1)} {video_in:rsc:mgc_in_wire.d(2)} {video_in:rsc:mgc_in_wire.d(3)} {video_in:rsc:mgc_in_wire.d(4)} {video_in:rsc:mgc_in_wire.d(5)} {video_in:rsc:mgc_in_wire.d(6)} {video_in:rsc:mgc_in_wire.d(7)} {video_in:rsc:mgc_in_wire.d(8)} {video_in:rsc:mgc_in_wire.d(9)} {video_in:rsc:mgc_in_wire.d(10)} {video_in:rsc:mgc_in_wire.d(11)} {video_in:rsc:mgc_in_wire.d(12)} {video_in:rsc:mgc_in_wire.d(13)} {video_in:rsc:mgc_in_wire.d(14)} {video_in:rsc:mgc_in_wire.d(15)} {video_in:rsc:mgc_in_wire.d(16)} {video_in:rsc:mgc_in_wire.d(17)} {video_in:rsc:mgc_in_wire.d(18)} {video_in:rsc:mgc_in_wire.d(19)} {video_in:rsc:mgc_in_wire.d(20)} {video_in:rsc:mgc_in_wire.d(21)} {video_in:rsc:mgc_in_wire.d(22)} {video_in:rsc:mgc_in_wire.d(23)} {video_in:rsc:mgc_in_wire.d(24)} {video_in:rsc:mgc_in_wire.d(25)} {video_in:rsc:mgc_in_wire.d(26)} {video_in:rsc:mgc_in_wire.d(27)} {video_in:rsc:mgc_in_wire.d(28)} {video_in:rsc:mgc_in_wire.d(29)} -attr xrf 751 -attr oid 35 -attr vt d -attr @path {/blueobject/blueobject:core/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d(0)} -port {video_in:rsc:mgc_in_wire.d(0)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(1)} -port {video_in:rsc:mgc_in_wire.d(1)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(2)} -port {video_in:rsc:mgc_in_wire.d(2)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(3)} -port {video_in:rsc:mgc_in_wire.d(3)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(4)} -port {video_in:rsc:mgc_in_wire.d(4)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(5)} -port {video_in:rsc:mgc_in_wire.d(5)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(6)} -port {video_in:rsc:mgc_in_wire.d(6)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(7)} -port {video_in:rsc:mgc_in_wire.d(7)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(8)} -port {video_in:rsc:mgc_in_wire.d(8)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(9)} -port {video_in:rsc:mgc_in_wire.d(9)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(10)} -port {video_in:rsc:mgc_in_wire.d(10)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(11)} -port {video_in:rsc:mgc_in_wire.d(11)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(12)} -port {video_in:rsc:mgc_in_wire.d(12)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(13)} -port {video_in:rsc:mgc_in_wire.d(13)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(14)} -port {video_in:rsc:mgc_in_wire.d(14)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(15)} -port {video_in:rsc:mgc_in_wire.d(15)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(16)} -port {video_in:rsc:mgc_in_wire.d(16)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(17)} -port {video_in:rsc:mgc_in_wire.d(17)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(18)} -port {video_in:rsc:mgc_in_wire.d(18)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(19)} -port {video_in:rsc:mgc_in_wire.d(19)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(20)} -port {video_in:rsc:mgc_in_wire.d(20)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(21)} -port {video_in:rsc:mgc_in_wire.d(21)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(22)} -port {video_in:rsc:mgc_in_wire.d(22)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(23)} -port {video_in:rsc:mgc_in_wire.d(23)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(24)} -port {video_in:rsc:mgc_in_wire.d(24)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(25)} -port {video_in:rsc:mgc_in_wire.d(25)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(26)} -port {video_in:rsc:mgc_in_wire.d(26)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(27)} -port {video_in:rsc:mgc_in_wire.d(27)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(28)} -port {video_in:rsc:mgc_in_wire.d(28)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d(29)} -port {video_in:rsc:mgc_in_wire.d(29)} -attr vt d
+load netBundle {video_in:rsc:mgc_in_wire.d} 30 {video_in:rsc:mgc_in_wire.d(0)} {video_in:rsc:mgc_in_wire.d(1)} {video_in:rsc:mgc_in_wire.d(2)} {video_in:rsc:mgc_in_wire.d(3)} {video_in:rsc:mgc_in_wire.d(4)} {video_in:rsc:mgc_in_wire.d(5)} {video_in:rsc:mgc_in_wire.d(6)} {video_in:rsc:mgc_in_wire.d(7)} {video_in:rsc:mgc_in_wire.d(8)} {video_in:rsc:mgc_in_wire.d(9)} {video_in:rsc:mgc_in_wire.d(10)} {video_in:rsc:mgc_in_wire.d(11)} {video_in:rsc:mgc_in_wire.d(12)} {video_in:rsc:mgc_in_wire.d(13)} {video_in:rsc:mgc_in_wire.d(14)} {video_in:rsc:mgc_in_wire.d(15)} {video_in:rsc:mgc_in_wire.d(16)} {video_in:rsc:mgc_in_wire.d(17)} {video_in:rsc:mgc_in_wire.d(18)} {video_in:rsc:mgc_in_wire.d(19)} {video_in:rsc:mgc_in_wire.d(20)} {video_in:rsc:mgc_in_wire.d(21)} {video_in:rsc:mgc_in_wire.d(22)} {video_in:rsc:mgc_in_wire.d(23)} {video_in:rsc:mgc_in_wire.d(24)} {video_in:rsc:mgc_in_wire.d(25)} {video_in:rsc:mgc_in_wire.d(26)} {video_in:rsc:mgc_in_wire.d(27)} {video_in:rsc:mgc_in_wire.d(28)} {video_in:rsc:mgc_in_wire.d(29)} -attr xrf 752 -attr oid 36 -attr vt d -attr @path {/blueobject/blueobject:core/video_in:rsc:mgc_in_wire.d}
+load net {player2y:rsc:mgc_out_stdreg.d(0)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(1)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(2)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(3)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(4)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(5)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(6)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(7)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(8)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d(9)} -attr vt d
+load netBundle {player2y:rsc:mgc_out_stdreg.d} 10 {player2y:rsc:mgc_out_stdreg.d(0)} {player2y:rsc:mgc_out_stdreg.d(1)} {player2y:rsc:mgc_out_stdreg.d(2)} {player2y:rsc:mgc_out_stdreg.d(3)} {player2y:rsc:mgc_out_stdreg.d(4)} {player2y:rsc:mgc_out_stdreg.d(5)} {player2y:rsc:mgc_out_stdreg.d(6)} {player2y:rsc:mgc_out_stdreg.d(7)} {player2y:rsc:mgc_out_stdreg.d(8)} {player2y:rsc:mgc_out_stdreg.d(9)} -attr xrf 753 -attr oid 37 -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(0)} -port {player2y:rsc:mgc_out_stdreg.d(0)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(1)} -port {player2y:rsc:mgc_out_stdreg.d(1)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(2)} -port {player2y:rsc:mgc_out_stdreg.d(2)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(3)} -port {player2y:rsc:mgc_out_stdreg.d(3)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(4)} -port {player2y:rsc:mgc_out_stdreg.d(4)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(5)} -port {player2y:rsc:mgc_out_stdreg.d(5)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(6)} -port {player2y:rsc:mgc_out_stdreg.d(6)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(7)} -port {player2y:rsc:mgc_out_stdreg.d(7)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(8)} -port {player2y:rsc:mgc_out_stdreg.d(8)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(9)} -port {player2y:rsc:mgc_out_stdreg.d(9)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load inst "blueobject:core:fsm:inst" "blueobject:core:fsm" "orig" -attr xrf 754 -attr oid 38 -attr @path {/blueobject/blueobject:core/blueobject:core:fsm:inst} -attr hier "/blueobject/blueobject:core/blueobject:core:fsm" -pg 1 -lvl 3
+load net {clk} -pin  "blueobject:core:fsm:inst" {clk#1} -attr xrf 755 -attr oid 39 -attr @path {/blueobject/blueobject:core/clk}
+load net {rst} -pin  "blueobject:core:fsm:inst" {rst#1} -attr xrf 756 -attr oid 40 -attr @path {/blueobject/blueobject:core/rst}
+load net {fsm_output#1(0)} -pin  "blueobject:core:fsm:inst" {fsm_output(0)} -attr @path {/blueobject/blueobject:core/fsm_output}
+load net {fsm_output#1(1)} -pin  "blueobject:core:fsm:inst" {fsm_output(1)} -attr @path {/blueobject/blueobject:core/fsm_output}
+load inst "and#7" "and(3,1)" "INTERFACE" -attr @path {/blueobject/blueobject:core/and#7} -attr area 1.055476 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_and(1,3)"
+load net {nor.cse} -pin  "and#7" {A0(0)} -attr @path {/blueobject/blueobject:core/nor.cse}
+load net {findpixelblue.sva.dfm} -pin  "and#7" {A1(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva.dfm}
+load net {fsm_output#1(0)} -pin  "and#7" {A2(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output)#2.itm}
+load net {and#7.itm} -pin  "and#7" {Z(0)} -attr @path {/blueobject/blueobject:core/and#7.itm}
+load inst "not#14" "not(1)" "INTERFACE" -attr @path {/blueobject/blueobject:core/not#14} -attr area 0.001000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_not(1)"
+load net {findpixelblue.sva} -pin  "not#14" {A(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva}
+load net {not#14.itm} -pin  "not#14" {Z(0)} -attr @path {/blueobject/blueobject:core/not#14.itm}
+load inst "not#13" "not(1)" "INTERFACE" -attr @path {/blueobject/blueobject:core/not#13} -attr area 0.001000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_not(1)"
+load net {VGA_VS:rsc:mgc_in_wire.d} -pin  "not#13" {A(0)} -attr @path {/blueobject/blueobject:core/VGA_VS:rsc:mgc_in_wire.d}
+load net {not#13.itm} -pin  "not#13" {Z(0)} -attr @path {/blueobject/blueobject:core/not#13.itm}
+load inst "and#12" "and(4,1)" "INTERFACE" -attr vt c -attr @path {/blueobject/blueobject:core/and#12} -attr area 1.380120 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_and(1,4)"
+load net {nor.cse} -pin  "and#12" {A0(0)} -attr vt c -attr @path {/blueobject/blueobject:core/nor.cse}
+load net {fsm_output#1(0)} -pin  "and#12" {A1(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output)#3.itm}
+load net {not#14.itm} -pin  "and#12" {A2(0)} -attr @path {/blueobject/blueobject:core/not#14.itm}
+load net {not#13.itm} -pin  "and#12" {A3(0)} -attr @path {/blueobject/blueobject:core/not#13.itm}
+load net {and#12.itm} -pin  "and#12" {Z(0)} -attr vt c -attr @path {/blueobject/blueobject:core/and#12.itm}
+load inst "not#15" "not(1)" "INTERFACE" -attr @path {/blueobject/blueobject:core/not#15} -attr area 0.001000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_not(1)"
+load net {fsm_output#1(0)} -pin  "not#15" {A(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output)#4.itm}
+load net {not#15.itm} -pin  "not#15" {Z(0)} -attr @path {/blueobject/blueobject:core/not#15.itm}
+load inst "or#5" "or(4,1)" "INTERFACE" -attr @path {/blueobject/blueobject:core/or#5} -attr area 1.380120 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_or(1,4)"
+load net {acc#1.itm(10)} -pin  "or#5" {A0(0)} -attr @path {/blueobject/blueobject:core/slc#8.itm}
+load net {aif:acc.itm(10)} -pin  "or#5" {A1(0)} -attr @path {/blueobject/blueobject:core/aif:slc#1.itm}
+load net {if#1:acc.itm(8)} -pin  "or#5" {A2(0)} -attr @path {/blueobject/blueobject:core/aif#1:slc#1.itm}
+load net {not#15.itm} -pin  "or#5" {A3(0)} -attr @path {/blueobject/blueobject:core/not#15.itm}
+load net {or#5.itm} -pin  "or#5" {Z(0)} -attr @path {/blueobject/blueobject:core/or#5.itm}
+load inst "mux1h" "mux1h(3,10)" "INTERFACE" -attr xrf 757 -attr oid 41 -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h} -attr area 21.897240 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_mux1hot(10,3)"
+load net {vga_y.sva(0)} -pin  "mux1h" {A0(0)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(1)} -pin  "mux1h" {A0(1)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(2)} -pin  "mux1h" {A0(2)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(3)} -pin  "mux1h" {A0(3)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(4)} -pin  "mux1h" {A0(4)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(5)} -pin  "mux1h" {A0(5)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(6)} -pin  "mux1h" {A0(6)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(7)} -pin  "mux1h" {A0(7)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(8)} -pin  "mux1h" {A0(8)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(9)} -pin  "mux1h" {A0(9)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {blueobjy.sva(0)} -pin  "mux1h" {A1(0)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(1)} -pin  "mux1h" {A1(1)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(2)} -pin  "mux1h" {A1(2)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(3)} -pin  "mux1h" {A1(3)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(4)} -pin  "mux1h" {A1(4)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(5)} -pin  "mux1h" {A1(5)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(6)} -pin  "mux1h" {A1(6)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(7)} -pin  "mux1h" {A1(7)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(8)} -pin  "mux1h" {A1(8)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(9)} -pin  "mux1h" {A1(9)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {player2y:rsc:mgc_out_stdreg.d(0)} -pin  "mux1h" {A2(0)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(1)} -pin  "mux1h" {A2(1)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(2)} -pin  "mux1h" {A2(2)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(3)} -pin  "mux1h" {A2(3)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(4)} -pin  "mux1h" {A2(4)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(5)} -pin  "mux1h" {A2(5)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(6)} -pin  "mux1h" {A2(6)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(7)} -pin  "mux1h" {A2(7)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(8)} -pin  "mux1h" {A2(8)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(9)} -pin  "mux1h" {A2(9)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {and#7.itm} -pin  "mux1h" {S0} -attr @path {/blueobject/blueobject:core/and#7.itm}
+load net {and#12.itm} -pin  "mux1h" {S1} -attr vt c -attr @path {/blueobject/blueobject:core/and#12.itm}
+load net {or#5.itm} -pin  "mux1h" {S2} -attr @path {/blueobject/blueobject:core/or#5.itm}
+load net {mux1h.itm(0)} -pin  "mux1h" {Z(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(1)} -pin  "mux1h" {Z(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(2)} -pin  "mux1h" {Z(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(3)} -pin  "mux1h" {Z(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(4)} -pin  "mux1h" {Z(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(5)} -pin  "mux1h" {Z(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(6)} -pin  "mux1h" {Z(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(7)} -pin  "mux1h" {Z(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(8)} -pin  "mux1h" {Z(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(9)} -pin  "mux1h" {Z(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load inst "reg(player2y:rsc:mgc_out_stdreg.d)" "reg(10,1,0,0,1)" "INTERFACE" -attr xrf 758 -attr oid 42 -attr vt dc -attr @path {/blueobject/blueobject:core/reg(player2y:rsc:mgc_out_stdreg.d)}
+load net {mux1h.itm(0)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(1)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(2)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(3)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(4)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(5)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(6)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(7)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(8)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {mux1h.itm(9)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {D(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/mux1h.itm}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(0)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(1)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(2)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(3)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(4)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(5)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(6)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(7)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(8)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {GND} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {DRs(9)} -attr @path {/blueobject/blueobject:core/C0_10}
+load net {clk} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {clk} -attr xrf 759 -attr oid 43 -attr @path {/blueobject/blueobject:core/clk}
+load net {rst} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Rs(0)} -attr @path {/blueobject/blueobject:core/rst}
+load net {player2y:rsc:mgc_out_stdreg.d(0)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(1)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(2)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(3)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(4)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(5)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(6)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(7)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(8)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d(9)} -pin  "reg(player2y:rsc:mgc_out_stdreg.d)" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/player2y:rsc:mgc_out_stdreg.d}
+load inst "nor" "nor(3,1)" "INTERFACE" -attr vt c -attr @path {/blueobject/blueobject:core/nor} -attr area 1.055476 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_nor(1,3)"
+load net {acc#1.itm(10)} -pin  "nor" {A0(0)} -attr vt c -attr @path {/blueobject/blueobject:core/slc#9.itm}
+load net {aif:acc.itm(10)} -pin  "nor" {A1(0)} -attr @path {/blueobject/blueobject:core/aif:slc#2.itm}
+load net {if#1:acc.itm(8)} -pin  "nor" {A2(0)} -attr @path {/blueobject/blueobject:core/aif#1:slc#2.itm}
+load net {nor.cse} -pin  "nor" {Z(0)} -attr vt c -attr @path {/blueobject/blueobject:core/nor.cse}
+load inst "nor#5" "nor(3,1)" "INTERFACE" -attr xrf 760 -attr oid 44 -attr @path {/blueobject/blueobject:core/nor#5} -attr area 1.055476 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_nor(1,3)"
+load net {findpixelblue.sva} -pin  "nor#5" {A0(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva}
+load net {VGA_VS:rsc:mgc_in_wire.d} -pin  "nor#5" {A1(0)} -attr @path {/blueobject/blueobject:core/VGA_VS:rsc:mgc_in_wire.d}
+load net {fsm_output#1(1)} -pin  "nor#5" {A2(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output)#5.itm}
+load net {nor#5.itm} -pin  "nor#5" {Z(0)} -attr @path {/blueobject/blueobject:core/nor#5.itm}
+load inst "or#6" "or(2,1)" "INTERFACE" -attr xrf 761 -attr oid 45 -attr @path {/blueobject/blueobject:core/or#6} -attr area 0.730832 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_or(1,2)"
+load net {nor#5.itm} -pin  "or#6" {A0(0)} -attr @path {/blueobject/blueobject:core/nor#5.itm}
+load net {fsm_output#1(1)} -pin  "or#6" {A1(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output)#1.itm}
+load net {or#6.itm} -pin  "or#6" {Z(0)} -attr @path {/blueobject/blueobject:core/or#6.itm}
+load inst "mux#1" "mux(2,10)" "INTERFACE" -attr xrf 762 -attr oid 46 -attr vt d -attr @path {/blueobject/blueobject:core/mux#1} -attr area 9.195230 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_mux(10,1,2)"
+load net {blueobjy.sva(0)} -pin  "mux#1" {A0(0)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(1)} -pin  "mux#1" {A0(1)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(2)} -pin  "mux#1" {A0(2)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(3)} -pin  "mux#1" {A0(3)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(4)} -pin  "mux#1" {A0(4)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(5)} -pin  "mux#1" {A0(5)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(6)} -pin  "mux#1" {A0(6)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(7)} -pin  "mux#1" {A0(7)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(8)} -pin  "mux#1" {A0(8)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(9)} -pin  "mux#1" {A0(9)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {vga_y.sva(0)} -pin  "mux#1" {A1(0)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(1)} -pin  "mux#1" {A1(1)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(2)} -pin  "mux#1" {A1(2)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(3)} -pin  "mux#1" {A1(3)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(4)} -pin  "mux#1" {A1(4)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(5)} -pin  "mux#1" {A1(5)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(6)} -pin  "mux#1" {A1(6)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(7)} -pin  "mux#1" {A1(7)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(8)} -pin  "mux#1" {A1(8)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(9)} -pin  "mux#1" {A1(9)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {or#6.itm} -pin  "mux#1" {S(0)} -attr @path {/blueobject/blueobject:core/or#6.itm}
+load net {mux#1.itm(0)} -pin  "mux#1" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(1)} -pin  "mux#1" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(2)} -pin  "mux#1" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(3)} -pin  "mux#1" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(4)} -pin  "mux#1" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(5)} -pin  "mux#1" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(6)} -pin  "mux#1" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(7)} -pin  "mux#1" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(8)} -pin  "mux#1" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(9)} -pin  "mux#1" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load inst "reg(blueobjy.sva)" "reg(10,1,0,0,1)" "INTERFACE" -attr xrf 763 -attr oid 47 -attr vt d -attr @path {/blueobject/blueobject:core/reg(blueobjy.sva)}
+load net {mux#1.itm(0)} -pin  "reg(blueobjy.sva)" {D(0)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(1)} -pin  "reg(blueobjy.sva)" {D(1)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(2)} -pin  "reg(blueobjy.sva)" {D(2)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(3)} -pin  "reg(blueobjy.sva)" {D(3)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(4)} -pin  "reg(blueobjy.sva)" {D(4)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(5)} -pin  "reg(blueobjy.sva)" {D(5)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(6)} -pin  "reg(blueobjy.sva)" {D(6)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(7)} -pin  "reg(blueobjy.sva)" {D(7)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(8)} -pin  "reg(blueobjy.sva)" {D(8)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {mux#1.itm(9)} -pin  "reg(blueobjy.sva)" {D(9)} -attr vt d -attr @path {/blueobject/blueobject:core/mux#1.itm}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(0)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(1)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(2)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(3)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(4)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(5)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(6)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(7)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(8)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {GND} -pin  "reg(blueobjy.sva)" {DRs(9)} -attr @path {/blueobject/blueobject:core/blueobjy_decl}
+load net {clk} -pin  "reg(blueobjy.sva)" {clk} -attr xrf 764 -attr oid 48 -attr @path {/blueobject/blueobject:core/clk}
+load net {rst} -pin  "reg(blueobjy.sva)" {Rs(0)} -attr @path {/blueobject/blueobject:core/rst}
+load net {blueobjy.sva(0)} -pin  "reg(blueobjy.sva)" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(1)} -pin  "reg(blueobjy.sva)" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(2)} -pin  "reg(blueobjy.sva)" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(3)} -pin  "reg(blueobjy.sva)" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(4)} -pin  "reg(blueobjy.sva)" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(5)} -pin  "reg(blueobjy.sva)" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(6)} -pin  "reg(blueobjy.sva)" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(7)} -pin  "reg(blueobjy.sva)" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(8)} -pin  "reg(blueobjy.sva)" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load net {blueobjy.sva(9)} -pin  "reg(blueobjy.sva)" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/blueobjy.sva}
+load inst "aif#1:aif:or" "or(3,1)" "INTERFACE" -attr xrf 765 -attr oid 49 -attr @path {/blueobject/blueobject:core/aif#1:aif:or} -attr area 1.055476 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_or(1,3)"
+load net {if#1:acc.itm(8)} -pin  "aif#1:aif:or" {A0(0)} -attr @path {/blueobject/blueobject:core/aif#1:slc.itm}
+load net {aif:acc.itm(10)} -pin  "aif#1:aif:or" {A1(0)} -attr @path {/blueobject/blueobject:core/aif:slc.itm}
+load net {acc#1.itm(10)} -pin  "aif#1:aif:or" {A2(0)} -attr @path {/blueobject/blueobject:core/slc.itm}
+load net {aif#1:aif:or.itm} -pin  "aif#1:aif:or" {Z(0)} -attr @path {/blueobject/blueobject:core/aif#1:aif:or.itm}
+load inst "and#1" "and(2,1)" "INTERFACE" -attr xrf 766 -attr oid 50 -attr @path {/blueobject/blueobject:core/and#1} -attr area 0.730832 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_and(1,2)"
+load net {findpixelblue.sva.dfm} -pin  "and#1" {A0(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva.dfm}
+load net {aif#1:aif:or.itm} -pin  "and#1" {A1(0)} -attr @path {/blueobject/blueobject:core/aif#1:aif:or.itm}
+load net {and#1.itm} -pin  "and#1" {Z(0)} -attr @path {/blueobject/blueobject:core/and#1.itm}
+load inst "mux#2" "mux(2,1)" "INTERFACE" -attr xrf 767 -attr oid 51 -attr @path {/blueobject/blueobject:core/mux#2} -attr area 0.920423 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_mux(1,1,2)"
+load net {and#1.itm} -pin  "mux#2" {A0(0)} -attr @path {/blueobject/blueobject:core/and#1.itm}
+load net {findpixelblue.sva} -pin  "mux#2" {A1(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva}
+load net {fsm_output#1(0)} -pin  "mux#2" {S(0)} -attr @path {/blueobject/blueobject:core/slc(fsm_output).itm}
+load net {mux#2.itm} -pin  "mux#2" {Z(0)} -attr @path {/blueobject/blueobject:core/mux#2.itm}
+load inst "reg(findpixelblue.sva)" "reg(1,1,0,0,1)" "INTERFACE" -attr xrf 768 -attr oid 52 -attr @path {/blueobject/blueobject:core/reg(findpixelblue.sva)}
+load net {mux#2.itm} -pin  "reg(findpixelblue.sva)" {D(0)} -attr @path {/blueobject/blueobject:core/mux#2.itm}
+load net {GND} -pin  "reg(findpixelblue.sva)" {DRs(0)} -attr @path {/blueobject/blueobject:core/findpixelblue_decl}
+load net {clk} -pin  "reg(findpixelblue.sva)" {clk} -attr xrf 769 -attr oid 53 -attr @path {/blueobject/blueobject:core/clk}
+load net {rst} -pin  "reg(findpixelblue.sva)" {Rs(0)} -attr @path {/blueobject/blueobject:core/rst}
+load net {findpixelblue.sva} -pin  "reg(findpixelblue.sva)" {Z(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva}
+load inst "acc" "add(10,-1,7,1,10)" "INTERFACE" -attr xrf 770 -attr oid 54 -attr vt d -attr @path {/blueobject/blueobject:core/acc} -attr area 11.000000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_add(10,0,7,1,10)"
+load net {vga_xy:rsc:mgc_in_wire.d(10)} -pin  "acc" {A(0)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(11)} -pin  "acc" {A(1)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(12)} -pin  "acc" {A(2)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(13)} -pin  "acc" {A(3)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(14)} -pin  "acc" {A(4)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(15)} -pin  "acc" {A(5)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(16)} -pin  "acc" {A(6)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(17)} -pin  "acc" {A(7)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(18)} -pin  "acc" {A(8)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {vga_xy:rsc:mgc_in_wire.d(19)} -pin  "acc" {A(9)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#1.itm}
+load net {PWR} -pin  "acc" {B(0)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {GND} -pin  "acc" {B(1)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {PWR} -pin  "acc" {B(2)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {PWR} -pin  "acc" {B(3)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {PWR} -pin  "acc" {B(4)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {GND} -pin  "acc" {B(5)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {PWR} -pin  "acc" {B(6)} -attr @path {/blueobject/blueobject:core/Cn35_7}
+load net {vga_y.sva(0)} -pin  "acc" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(1)} -pin  "acc" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(2)} -pin  "acc" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(3)} -pin  "acc" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(4)} -pin  "acc" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(5)} -pin  "acc" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(6)} -pin  "acc" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(7)} -pin  "acc" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(8)} -pin  "acc" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load net {vga_y.sva(9)} -pin  "acc" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/vga_y.sva}
+load inst "or" "or(2,1)" "INTERFACE" -attr xrf 771 -attr oid 55 -attr @path {/blueobject/blueobject:core/or} -attr area 0.730832 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_or(1,2)"
+load net {findpixelblue.sva} -pin  "or" {A0(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva}
+load net {VGA_VS:rsc:mgc_in_wire.d} -pin  "or" {A1(0)} -attr @path {/blueobject/blueobject:core/VGA_VS:rsc:mgc_in_wire.d}
+load net {findpixelblue.sva.dfm} -pin  "or" {Z(0)} -attr @path {/blueobject/blueobject:core/findpixelblue.sva.dfm}
+load inst "if#1:acc" "add(8,0,8,1,9)" "INTERFACE" -attr xrf 772 -attr oid 56 -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc} -attr area 9.000000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_add(8,0,8,1,9)"
+load net {video_in:rsc:mgc_in_wire.d(2)} -pin  "if#1:acc" {A(0)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(3)} -pin  "if#1:acc" {A(1)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(4)} -pin  "if#1:acc" {A(2)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(5)} -pin  "if#1:acc" {A(3)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(6)} -pin  "if#1:acc" {A(4)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(7)} -pin  "if#1:acc" {A(5)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(8)} -pin  "if#1:acc" {A(6)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {video_in:rsc:mgc_in_wire.d(9)} -pin  "if#1:acc" {A(7)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#6.itm}
+load net {PWR} -pin  "if#1:acc" {B(0)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {PWR} -pin  "if#1:acc" {B(1)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {GND} -pin  "if#1:acc" {B(2)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {GND} -pin  "if#1:acc" {B(3)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {GND} -pin  "if#1:acc" {B(4)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {GND} -pin  "if#1:acc" {B(5)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {GND} -pin  "if#1:acc" {B(6)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {PWR} -pin  "if#1:acc" {B(7)} -attr @path {/blueobject/blueobject:core/Cn125_8}
+load net {if#1:acc.itm(0)} -pin  "if#1:acc" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(1)} -pin  "if#1:acc" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(2)} -pin  "if#1:acc" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(3)} -pin  "if#1:acc" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(4)} -pin  "if#1:acc" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(5)} -pin  "if#1:acc" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(6)} -pin  "if#1:acc" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(7)} -pin  "if#1:acc" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load net {if#1:acc.itm(8)} -pin  "if#1:acc" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/if#1:acc.itm}
+load inst "aif:not#1" "not(10)" "INTERFACE" -attr xrf 773 -attr oid 57 -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1} -attr area 0.001000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_not(10)"
+load net {video_in:rsc:mgc_in_wire.d(10)} -pin  "aif:not#1" {A(0)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(11)} -pin  "aif:not#1" {A(1)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(12)} -pin  "aif:not#1" {A(2)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(13)} -pin  "aif:not#1" {A(3)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(14)} -pin  "aif:not#1" {A(4)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(15)} -pin  "aif:not#1" {A(5)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(16)} -pin  "aif:not#1" {A(6)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(17)} -pin  "aif:not#1" {A(7)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(18)} -pin  "aif:not#1" {A(8)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {video_in:rsc:mgc_in_wire.d(19)} -pin  "aif:not#1" {A(9)} -attr vt d -attr @path {/blueobject/blueobject:core/slc#7.itm}
+load net {aif:not#1.itm(0)} -pin  "aif:not#1" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(1)} -pin  "aif:not#1" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(2)} -pin  "aif:not#1" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(3)} -pin  "aif:not#1" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(4)} -pin  "aif:not#1" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(5)} -pin  "aif:not#1" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(6)} -pin  "aif:not#1" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(7)} -pin  "aif:not#1" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(8)} -pin  "aif:not#1" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load net {aif:not#1.itm(9)} -pin  "aif:not#1" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:not#1.itm}
+load inst "aif:acc" "add(11,-1,9,0,11)" "INTERFACE" -attr xrf 774 -attr oid 58 -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc} -attr area 12.000000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_add(11,0,10,1,11)"
+load net {aif:not#1.itm(0)} -pin  "aif:acc" {A(0)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(1)} -pin  "aif:acc" {A(1)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(2)} -pin  "aif:acc" {A(2)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(3)} -pin  "aif:acc" {A(3)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(4)} -pin  "aif:acc" {A(4)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(5)} -pin  "aif:acc" {A(5)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(6)} -pin  "aif:acc" {A(6)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(7)} -pin  "aif:acc" {A(7)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(8)} -pin  "aif:acc" {A(8)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {aif:not#1.itm(9)} -pin  "aif:acc" {A(9)} -attr vt d -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {PWR} -pin  "aif:acc" {A(10)} -attr @path {/blueobject/blueobject:core/conc.itm}
+load net {PWR} -pin  "aif:acc" {B(0)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "aif:acc" {B(1)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "aif:acc" {B(2)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "aif:acc" {B(3)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "aif:acc" {B(4)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "aif:acc" {B(5)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "aif:acc" {B(6)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "aif:acc" {B(7)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "aif:acc" {B(8)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {aif:acc.itm(0)} -pin  "aif:acc" {Z(0)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(1)} -pin  "aif:acc" {Z(1)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(2)} -pin  "aif:acc" {Z(2)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(3)} -pin  "aif:acc" {Z(3)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(4)} -pin  "aif:acc" {Z(4)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(5)} -pin  "aif:acc" {Z(5)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(6)} -pin  "aif:acc" {Z(6)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(7)} -pin  "aif:acc" {Z(7)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(8)} -pin  "aif:acc" {Z(8)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(9)} -pin  "aif:acc" {Z(9)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load net {aif:acc.itm(10)} -pin  "aif:acc" {Z(10)} -attr vt d -attr @path {/blueobject/blueobject:core/aif:acc.itm}
+load inst "not#1" "not(10)" "INTERFACE" -attr xrf 775 -attr oid 59 -attr vt dc -attr @path {/blueobject/blueobject:core/not#1} -attr area 0.001000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_not(10)"
+load net {video_in:rsc:mgc_in_wire.d(20)} -pin  "not#1" {A(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(21)} -pin  "not#1" {A(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(22)} -pin  "not#1" {A(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(23)} -pin  "not#1" {A(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(24)} -pin  "not#1" {A(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(25)} -pin  "not#1" {A(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(26)} -pin  "not#1" {A(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(27)} -pin  "not#1" {A(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(28)} -pin  "not#1" {A(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {video_in:rsc:mgc_in_wire.d(29)} -pin  "not#1" {A(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/slc#5.itm}
+load net {not#1.itm(0)} -pin  "not#1" {Z(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(1)} -pin  "not#1" {Z(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(2)} -pin  "not#1" {Z(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(3)} -pin  "not#1" {Z(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(4)} -pin  "not#1" {Z(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(5)} -pin  "not#1" {Z(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(6)} -pin  "not#1" {Z(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(7)} -pin  "not#1" {Z(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(8)} -pin  "not#1" {Z(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load net {not#1.itm(9)} -pin  "not#1" {Z(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/not#1.itm}
+load inst "acc#1" "add(11,-1,9,0,11)" "INTERFACE" -attr xrf 776 -attr oid 60 -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1} -attr area 12.000000 -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_Altera-Cyclone-III-6_beh_psr.mgc_add(11,0,10,1,11)"
+load net {not#1.itm(0)} -pin  "acc#1" {A(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(1)} -pin  "acc#1" {A(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(2)} -pin  "acc#1" {A(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(3)} -pin  "acc#1" {A(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(4)} -pin  "acc#1" {A(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(5)} -pin  "acc#1" {A(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(6)} -pin  "acc#1" {A(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(7)} -pin  "acc#1" {A(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(8)} -pin  "acc#1" {A(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {not#1.itm(9)} -pin  "acc#1" {A(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {PWR} -pin  "acc#1" {A(10)} -attr @path {/blueobject/blueobject:core/conc#4.itm}
+load net {PWR} -pin  "acc#1" {B(0)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "acc#1" {B(1)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "acc#1" {B(2)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "acc#1" {B(3)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "acc#1" {B(4)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "acc#1" {B(5)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {GND} -pin  "acc#1" {B(6)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "acc#1" {B(7)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {PWR} -pin  "acc#1" {B(8)} -attr @path {/blueobject/blueobject:core/C401_9}
+load net {acc#1.itm(0)} -pin  "acc#1" {Z(0)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(1)} -pin  "acc#1" {Z(1)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(2)} -pin  "acc#1" {Z(2)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(3)} -pin  "acc#1" {Z(3)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(4)} -pin  "acc#1" {Z(4)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(5)} -pin  "acc#1" {Z(5)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(6)} -pin  "acc#1" {Z(6)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(7)} -pin  "acc#1" {Z(7)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(8)} -pin  "acc#1" {Z(8)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(9)} -pin  "acc#1" {Z(9)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+load net {acc#1.itm(10)} -pin  "acc#1" {Z(10)} -attr vt dc -attr @path {/blueobject/blueobject:core/acc#1.itm}
+### END MODULE 
+
+module new "blueobject" "orig"
+load port {VGA_VS:rsc.z} input -attr xrf 777 -attr oid 61 -attr vt d -attr @path {/blueobject/VGA_VS:rsc.z}
+load portBus {vga_xy:rsc.z(19:0)} input 20 {vga_xy:rsc.z(19)} {vga_xy:rsc.z(18)} {vga_xy:rsc.z(17)} {vga_xy:rsc.z(16)} {vga_xy:rsc.z(15)} {vga_xy:rsc.z(14)} {vga_xy:rsc.z(13)} {vga_xy:rsc.z(12)} {vga_xy:rsc.z(11)} {vga_xy:rsc.z(10)} {vga_xy:rsc.z(9)} {vga_xy:rsc.z(8)} {vga_xy:rsc.z(7)} {vga_xy:rsc.z(6)} {vga_xy:rsc.z(5)} {vga_xy:rsc.z(4)} {vga_xy:rsc.z(3)} {vga_xy:rsc.z(2)} {vga_xy:rsc.z(1)} {vga_xy:rsc.z(0)} -attr xrf 778 -attr oid 62 -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load portBus {video_in:rsc.z(29:0)} input 30 {video_in:rsc.z(29)} {video_in:rsc.z(28)} {video_in:rsc.z(27)} {video_in:rsc.z(26)} {video_in:rsc.z(25)} {video_in:rsc.z(24)} {video_in:rsc.z(23)} {video_in:rsc.z(22)} {video_in:rsc.z(21)} {video_in:rsc.z(20)} {video_in:rsc.z(19)} {video_in:rsc.z(18)} {video_in:rsc.z(17)} {video_in:rsc.z(16)} {video_in:rsc.z(15)} {video_in:rsc.z(14)} {video_in:rsc.z(13)} {video_in:rsc.z(12)} {video_in:rsc.z(11)} {video_in:rsc.z(10)} {video_in:rsc.z(9)} {video_in:rsc.z(8)} {video_in:rsc.z(7)} {video_in:rsc.z(6)} {video_in:rsc.z(5)} {video_in:rsc.z(4)} {video_in:rsc.z(3)} {video_in:rsc.z(2)} {video_in:rsc.z(1)} {video_in:rsc.z(0)} -attr xrf 779 -attr oid 63 -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load portBus {player2y:rsc.z(9:0)} output 10 {player2y:rsc.z(9)} {player2y:rsc.z(8)} {player2y:rsc.z(7)} {player2y:rsc.z(6)} {player2y:rsc.z(5)} {player2y:rsc.z(4)} {player2y:rsc.z(3)} {player2y:rsc.z(2)} {player2y:rsc.z(1)} {player2y:rsc.z(0)} -attr xrf 780 -attr oid 64 -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load port {clk} input -attr xrf 781 -attr oid 65 -attr vt d -attr @path {/blueobject/clk}
+load port {rst} input -attr xrf 782 -attr oid 66 -attr vt d -attr @path {/blueobject/rst}
+load symbol "mgc_ioport.mgc_in_wire(1,1)" "INTERFACE" GEN boxcolor 0 \
+     portBus {d(0:0)} output 1 {d(0)} \
+     portBus {z(0:0)} input 1 {z(0)} \
+
+load symbol "mgc_ioport.mgc_in_wire(2,20)" "INTERFACE" GEN boxcolor 0 \
+     portBus {d(19:0)} output 20 {d(19)} {d(18)} {d(17)} {d(16)} {d(15)} {d(14)} {d(13)} {d(12)} {d(11)} {d(10)} {d(9)} {d(8)} {d(7)} {d(6)} {d(5)} {d(4)} {d(3)} {d(2)} {d(1)} {d(0)} \
+     portBus {z(19:0)} input 20 {z(19)} {z(18)} {z(17)} {z(16)} {z(15)} {z(14)} {z(13)} {z(12)} {z(11)} {z(10)} {z(9)} {z(8)} {z(7)} {z(6)} {z(5)} {z(4)} {z(3)} {z(2)} {z(1)} {z(0)} \
+
+load symbol "mgc_ioport.mgc_in_wire(3,30)" "INTERFACE" GEN boxcolor 0 \
+     portBus {d(29:0)} output 30 {d(29)} {d(28)} {d(27)} {d(26)} {d(25)} {d(24)} {d(23)} {d(22)} {d(21)} {d(20)} {d(19)} {d(18)} {d(17)} {d(16)} {d(15)} {d(14)} {d(13)} {d(12)} {d(11)} {d(10)} {d(9)} {d(8)} {d(7)} {d(6)} {d(5)} {d(4)} {d(3)} {d(2)} {d(1)} {d(0)} \
+     portBus {z(29:0)} input 30 {z(29)} {z(28)} {z(27)} {z(26)} {z(25)} {z(24)} {z(23)} {z(22)} {z(21)} {z(20)} {z(19)} {z(18)} {z(17)} {z(16)} {z(15)} {z(14)} {z(13)} {z(12)} {z(11)} {z(10)} {z(9)} {z(8)} {z(7)} {z(6)} {z(5)} {z(4)} {z(3)} {z(2)} {z(1)} {z(0)} \
+
+load symbol "mgc_ioport.mgc_out_stdreg(4,10)" "INTERFACE" GEN boxcolor 0 \
+     portBus {d(9:0)} input 10 {d(9)} {d(8)} {d(7)} {d(6)} {d(5)} {d(4)} {d(3)} {d(2)} {d(1)} {d(0)} \
+     portBus {z(9:0)} output 10 {z(9)} {z(8)} {z(7)} {z(6)} {z(5)} {z(4)} {z(3)} {z(2)} {z(1)} {z(0)} \
+
+load symbol "blueobject:core" "orig" GEN \
+     port {clk#1} input \
+     port {rst#1} input \
+     port {VGA_VS:rsc:mgc_in_wire.d} input \
+     portBus {vga_xy:rsc:mgc_in_wire.d(19:0)} input 20 {vga_xy:rsc:mgc_in_wire.d(19)} {vga_xy:rsc:mgc_in_wire.d(18)} {vga_xy:rsc:mgc_in_wire.d(17)} {vga_xy:rsc:mgc_in_wire.d(16)} {vga_xy:rsc:mgc_in_wire.d(15)} {vga_xy:rsc:mgc_in_wire.d(14)} {vga_xy:rsc:mgc_in_wire.d(13)} {vga_xy:rsc:mgc_in_wire.d(12)} {vga_xy:rsc:mgc_in_wire.d(11)} {vga_xy:rsc:mgc_in_wire.d(10)} {vga_xy:rsc:mgc_in_wire.d(9)} {vga_xy:rsc:mgc_in_wire.d(8)} {vga_xy:rsc:mgc_in_wire.d(7)} {vga_xy:rsc:mgc_in_wire.d(6)} {vga_xy:rsc:mgc_in_wire.d(5)} {vga_xy:rsc:mgc_in_wire.d(4)} {vga_xy:rsc:mgc_in_wire.d(3)} {vga_xy:rsc:mgc_in_wire.d(2)} {vga_xy:rsc:mgc_in_wire.d(1)} {vga_xy:rsc:mgc_in_wire.d(0)} \
+     portBus {video_in:rsc:mgc_in_wire.d(29:0)} input 30 {video_in:rsc:mgc_in_wire.d(29)} {video_in:rsc:mgc_in_wire.d(28)} {video_in:rsc:mgc_in_wire.d(27)} {video_in:rsc:mgc_in_wire.d(26)} {video_in:rsc:mgc_in_wire.d(25)} {video_in:rsc:mgc_in_wire.d(24)} {video_in:rsc:mgc_in_wire.d(23)} {video_in:rsc:mgc_in_wire.d(22)} {video_in:rsc:mgc_in_wire.d(21)} {video_in:rsc:mgc_in_wire.d(20)} {video_in:rsc:mgc_in_wire.d(19)} {video_in:rsc:mgc_in_wire.d(18)} {video_in:rsc:mgc_in_wire.d(17)} {video_in:rsc:mgc_in_wire.d(16)} {video_in:rsc:mgc_in_wire.d(15)} {video_in:rsc:mgc_in_wire.d(14)} {video_in:rsc:mgc_in_wire.d(13)} {video_in:rsc:mgc_in_wire.d(12)} {video_in:rsc:mgc_in_wire.d(11)} {video_in:rsc:mgc_in_wire.d(10)} {video_in:rsc:mgc_in_wire.d(9)} {video_in:rsc:mgc_in_wire.d(8)} {video_in:rsc:mgc_in_wire.d(7)} {video_in:rsc:mgc_in_wire.d(6)} {video_in:rsc:mgc_in_wire.d(5)} {video_in:rsc:mgc_in_wire.d(4)} {video_in:rsc:mgc_in_wire.d(3)} {video_in:rsc:mgc_in_wire.d(2)} {video_in:rsc:mgc_in_wire.d(1)} {video_in:rsc:mgc_in_wire.d(0)} \
+     portBus {player2y:rsc:mgc_out_stdreg.d(9:0)} output 10 {player2y:rsc:mgc_out_stdreg.d(9)} {player2y:rsc:mgc_out_stdreg.d(8)} {player2y:rsc:mgc_out_stdreg.d(7)} {player2y:rsc:mgc_out_stdreg.d(6)} {player2y:rsc:mgc_out_stdreg.d(5)} {player2y:rsc:mgc_out_stdreg.d(4)} {player2y:rsc:mgc_out_stdreg.d(3)} {player2y:rsc:mgc_out_stdreg.d(2)} {player2y:rsc:mgc_out_stdreg.d(1)} {player2y:rsc:mgc_out_stdreg.d(0)} \
+
+load net {VGA_VS:rsc:mgc_in_wire.d#1} -attr xrf 783 -attr oid 67 -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(0)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(1)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(2)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(3)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(4)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(5)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(6)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(7)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(8)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(9)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(10)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(11)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(12)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(13)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(14)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(15)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(16)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(17)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(18)} -attr vt d
+load net {vga_xy:rsc:mgc_in_wire.d#1(19)} -attr vt d
+load netBundle {vga_xy:rsc:mgc_in_wire.d#1} 20 {vga_xy:rsc:mgc_in_wire.d#1(0)} {vga_xy:rsc:mgc_in_wire.d#1(1)} {vga_xy:rsc:mgc_in_wire.d#1(2)} {vga_xy:rsc:mgc_in_wire.d#1(3)} {vga_xy:rsc:mgc_in_wire.d#1(4)} {vga_xy:rsc:mgc_in_wire.d#1(5)} {vga_xy:rsc:mgc_in_wire.d#1(6)} {vga_xy:rsc:mgc_in_wire.d#1(7)} {vga_xy:rsc:mgc_in_wire.d#1(8)} {vga_xy:rsc:mgc_in_wire.d#1(9)} {vga_xy:rsc:mgc_in_wire.d#1(10)} {vga_xy:rsc:mgc_in_wire.d#1(11)} {vga_xy:rsc:mgc_in_wire.d#1(12)} {vga_xy:rsc:mgc_in_wire.d#1(13)} {vga_xy:rsc:mgc_in_wire.d#1(14)} {vga_xy:rsc:mgc_in_wire.d#1(15)} {vga_xy:rsc:mgc_in_wire.d#1(16)} {vga_xy:rsc:mgc_in_wire.d#1(17)} {vga_xy:rsc:mgc_in_wire.d#1(18)} {vga_xy:rsc:mgc_in_wire.d#1(19)} -attr xrf 784 -attr oid 68 -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(0)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(1)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(2)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(3)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(4)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(5)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(6)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(7)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(8)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(9)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(10)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(11)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(12)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(13)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(14)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(15)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(16)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(17)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(18)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(19)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(20)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(21)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(22)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(23)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(24)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(25)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(26)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(27)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(28)} -attr vt d
+load net {video_in:rsc:mgc_in_wire.d#1(29)} -attr vt d
+load netBundle {video_in:rsc:mgc_in_wire.d#1} 30 {video_in:rsc:mgc_in_wire.d#1(0)} {video_in:rsc:mgc_in_wire.d#1(1)} {video_in:rsc:mgc_in_wire.d#1(2)} {video_in:rsc:mgc_in_wire.d#1(3)} {video_in:rsc:mgc_in_wire.d#1(4)} {video_in:rsc:mgc_in_wire.d#1(5)} {video_in:rsc:mgc_in_wire.d#1(6)} {video_in:rsc:mgc_in_wire.d#1(7)} {video_in:rsc:mgc_in_wire.d#1(8)} {video_in:rsc:mgc_in_wire.d#1(9)} {video_in:rsc:mgc_in_wire.d#1(10)} {video_in:rsc:mgc_in_wire.d#1(11)} {video_in:rsc:mgc_in_wire.d#1(12)} {video_in:rsc:mgc_in_wire.d#1(13)} {video_in:rsc:mgc_in_wire.d#1(14)} {video_in:rsc:mgc_in_wire.d#1(15)} {video_in:rsc:mgc_in_wire.d#1(16)} {video_in:rsc:mgc_in_wire.d#1(17)} {video_in:rsc:mgc_in_wire.d#1(18)} {video_in:rsc:mgc_in_wire.d#1(19)} {video_in:rsc:mgc_in_wire.d#1(20)} {video_in:rsc:mgc_in_wire.d#1(21)} {video_in:rsc:mgc_in_wire.d#1(22)} {video_in:rsc:mgc_in_wire.d#1(23)} {video_in:rsc:mgc_in_wire.d#1(24)} {video_in:rsc:mgc_in_wire.d#1(25)} {video_in:rsc:mgc_in_wire.d#1(26)} {video_in:rsc:mgc_in_wire.d#1(27)} {video_in:rsc:mgc_in_wire.d#1(28)} {video_in:rsc:mgc_in_wire.d#1(29)} -attr xrf 785 -attr oid 69 -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(0)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(1)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(2)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(3)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(4)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(5)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(6)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(7)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(8)} -attr vt d
+load net {player2y:rsc:mgc_out_stdreg.d#1(9)} -attr vt d
+load netBundle {player2y:rsc:mgc_out_stdreg.d#1} 10 {player2y:rsc:mgc_out_stdreg.d#1(0)} {player2y:rsc:mgc_out_stdreg.d#1(1)} {player2y:rsc:mgc_out_stdreg.d#1(2)} {player2y:rsc:mgc_out_stdreg.d#1(3)} {player2y:rsc:mgc_out_stdreg.d#1(4)} {player2y:rsc:mgc_out_stdreg.d#1(5)} {player2y:rsc:mgc_out_stdreg.d#1(6)} {player2y:rsc:mgc_out_stdreg.d#1(7)} {player2y:rsc:mgc_out_stdreg.d#1(8)} {player2y:rsc:mgc_out_stdreg.d#1(9)} -attr xrf 786 -attr oid 70 -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {VGA_VS:rsc.z} -attr xrf 787 -attr oid 71 -attr vt d
+load net {VGA_VS:rsc.z} -port {VGA_VS:rsc.z} -attr xrf 788 -attr oid 72 -attr vt d
+load net {vga_xy:rsc.z(0)} -attr vt d
+load net {vga_xy:rsc.z(1)} -attr vt d
+load net {vga_xy:rsc.z(2)} -attr vt d
+load net {vga_xy:rsc.z(3)} -attr vt d
+load net {vga_xy:rsc.z(4)} -attr vt d
+load net {vga_xy:rsc.z(5)} -attr vt d
+load net {vga_xy:rsc.z(6)} -attr vt d
+load net {vga_xy:rsc.z(7)} -attr vt d
+load net {vga_xy:rsc.z(8)} -attr vt d
+load net {vga_xy:rsc.z(9)} -attr vt d
+load net {vga_xy:rsc.z(10)} -attr vt d
+load net {vga_xy:rsc.z(11)} -attr vt d
+load net {vga_xy:rsc.z(12)} -attr vt d
+load net {vga_xy:rsc.z(13)} -attr vt d
+load net {vga_xy:rsc.z(14)} -attr vt d
+load net {vga_xy:rsc.z(15)} -attr vt d
+load net {vga_xy:rsc.z(16)} -attr vt d
+load net {vga_xy:rsc.z(17)} -attr vt d
+load net {vga_xy:rsc.z(18)} -attr vt d
+load net {vga_xy:rsc.z(19)} -attr vt d
+load netBundle {vga_xy:rsc.z} 20 {vga_xy:rsc.z(0)} {vga_xy:rsc.z(1)} {vga_xy:rsc.z(2)} {vga_xy:rsc.z(3)} {vga_xy:rsc.z(4)} {vga_xy:rsc.z(5)} {vga_xy:rsc.z(6)} {vga_xy:rsc.z(7)} {vga_xy:rsc.z(8)} {vga_xy:rsc.z(9)} {vga_xy:rsc.z(10)} {vga_xy:rsc.z(11)} {vga_xy:rsc.z(12)} {vga_xy:rsc.z(13)} {vga_xy:rsc.z(14)} {vga_xy:rsc.z(15)} {vga_xy:rsc.z(16)} {vga_xy:rsc.z(17)} {vga_xy:rsc.z(18)} {vga_xy:rsc.z(19)} -attr xrf 789 -attr oid 73 -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(0)} -port {vga_xy:rsc.z(0)} -attr vt d
+load net {vga_xy:rsc.z(1)} -port {vga_xy:rsc.z(1)} -attr vt d
+load net {vga_xy:rsc.z(2)} -port {vga_xy:rsc.z(2)} -attr vt d
+load net {vga_xy:rsc.z(3)} -port {vga_xy:rsc.z(3)} -attr vt d
+load net {vga_xy:rsc.z(4)} -port {vga_xy:rsc.z(4)} -attr vt d
+load net {vga_xy:rsc.z(5)} -port {vga_xy:rsc.z(5)} -attr vt d
+load net {vga_xy:rsc.z(6)} -port {vga_xy:rsc.z(6)} -attr vt d
+load net {vga_xy:rsc.z(7)} -port {vga_xy:rsc.z(7)} -attr vt d
+load net {vga_xy:rsc.z(8)} -port {vga_xy:rsc.z(8)} -attr vt d
+load net {vga_xy:rsc.z(9)} -port {vga_xy:rsc.z(9)} -attr vt d
+load net {vga_xy:rsc.z(10)} -port {vga_xy:rsc.z(10)} -attr vt d
+load net {vga_xy:rsc.z(11)} -port {vga_xy:rsc.z(11)} -attr vt d
+load net {vga_xy:rsc.z(12)} -port {vga_xy:rsc.z(12)} -attr vt d
+load net {vga_xy:rsc.z(13)} -port {vga_xy:rsc.z(13)} -attr vt d
+load net {vga_xy:rsc.z(14)} -port {vga_xy:rsc.z(14)} -attr vt d
+load net {vga_xy:rsc.z(15)} -port {vga_xy:rsc.z(15)} -attr vt d
+load net {vga_xy:rsc.z(16)} -port {vga_xy:rsc.z(16)} -attr vt d
+load net {vga_xy:rsc.z(17)} -port {vga_xy:rsc.z(17)} -attr vt d
+load net {vga_xy:rsc.z(18)} -port {vga_xy:rsc.z(18)} -attr vt d
+load net {vga_xy:rsc.z(19)} -port {vga_xy:rsc.z(19)} -attr vt d
+load netBundle {vga_xy:rsc.z} 20 {vga_xy:rsc.z(0)} {vga_xy:rsc.z(1)} {vga_xy:rsc.z(2)} {vga_xy:rsc.z(3)} {vga_xy:rsc.z(4)} {vga_xy:rsc.z(5)} {vga_xy:rsc.z(6)} {vga_xy:rsc.z(7)} {vga_xy:rsc.z(8)} {vga_xy:rsc.z(9)} {vga_xy:rsc.z(10)} {vga_xy:rsc.z(11)} {vga_xy:rsc.z(12)} {vga_xy:rsc.z(13)} {vga_xy:rsc.z(14)} {vga_xy:rsc.z(15)} {vga_xy:rsc.z(16)} {vga_xy:rsc.z(17)} {vga_xy:rsc.z(18)} {vga_xy:rsc.z(19)} -attr xrf 790 -attr oid 74 -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {video_in:rsc.z(0)} -attr vt d
+load net {video_in:rsc.z(1)} -attr vt d
+load net {video_in:rsc.z(2)} -attr vt d
+load net {video_in:rsc.z(3)} -attr vt d
+load net {video_in:rsc.z(4)} -attr vt d
+load net {video_in:rsc.z(5)} -attr vt d
+load net {video_in:rsc.z(6)} -attr vt d
+load net {video_in:rsc.z(7)} -attr vt d
+load net {video_in:rsc.z(8)} -attr vt d
+load net {video_in:rsc.z(9)} -attr vt d
+load net {video_in:rsc.z(10)} -attr vt d
+load net {video_in:rsc.z(11)} -attr vt d
+load net {video_in:rsc.z(12)} -attr vt d
+load net {video_in:rsc.z(13)} -attr vt d
+load net {video_in:rsc.z(14)} -attr vt d
+load net {video_in:rsc.z(15)} -attr vt d
+load net {video_in:rsc.z(16)} -attr vt d
+load net {video_in:rsc.z(17)} -attr vt d
+load net {video_in:rsc.z(18)} -attr vt d
+load net {video_in:rsc.z(19)} -attr vt d
+load net {video_in:rsc.z(20)} -attr vt d
+load net {video_in:rsc.z(21)} -attr vt d
+load net {video_in:rsc.z(22)} -attr vt d
+load net {video_in:rsc.z(23)} -attr vt d
+load net {video_in:rsc.z(24)} -attr vt d
+load net {video_in:rsc.z(25)} -attr vt d
+load net {video_in:rsc.z(26)} -attr vt d
+load net {video_in:rsc.z(27)} -attr vt d
+load net {video_in:rsc.z(28)} -attr vt d
+load net {video_in:rsc.z(29)} -attr vt d
+load netBundle {video_in:rsc.z} 30 {video_in:rsc.z(0)} {video_in:rsc.z(1)} {video_in:rsc.z(2)} {video_in:rsc.z(3)} {video_in:rsc.z(4)} {video_in:rsc.z(5)} {video_in:rsc.z(6)} {video_in:rsc.z(7)} {video_in:rsc.z(8)} {video_in:rsc.z(9)} {video_in:rsc.z(10)} {video_in:rsc.z(11)} {video_in:rsc.z(12)} {video_in:rsc.z(13)} {video_in:rsc.z(14)} {video_in:rsc.z(15)} {video_in:rsc.z(16)} {video_in:rsc.z(17)} {video_in:rsc.z(18)} {video_in:rsc.z(19)} {video_in:rsc.z(20)} {video_in:rsc.z(21)} {video_in:rsc.z(22)} {video_in:rsc.z(23)} {video_in:rsc.z(24)} {video_in:rsc.z(25)} {video_in:rsc.z(26)} {video_in:rsc.z(27)} {video_in:rsc.z(28)} {video_in:rsc.z(29)} -attr xrf 791 -attr oid 75 -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(0)} -port {video_in:rsc.z(0)} -attr vt d
+load net {video_in:rsc.z(1)} -port {video_in:rsc.z(1)} -attr vt d
+load net {video_in:rsc.z(2)} -port {video_in:rsc.z(2)} -attr vt d
+load net {video_in:rsc.z(3)} -port {video_in:rsc.z(3)} -attr vt d
+load net {video_in:rsc.z(4)} -port {video_in:rsc.z(4)} -attr vt d
+load net {video_in:rsc.z(5)} -port {video_in:rsc.z(5)} -attr vt d
+load net {video_in:rsc.z(6)} -port {video_in:rsc.z(6)} -attr vt d
+load net {video_in:rsc.z(7)} -port {video_in:rsc.z(7)} -attr vt d
+load net {video_in:rsc.z(8)} -port {video_in:rsc.z(8)} -attr vt d
+load net {video_in:rsc.z(9)} -port {video_in:rsc.z(9)} -attr vt d
+load net {video_in:rsc.z(10)} -port {video_in:rsc.z(10)} -attr vt d
+load net {video_in:rsc.z(11)} -port {video_in:rsc.z(11)} -attr vt d
+load net {video_in:rsc.z(12)} -port {video_in:rsc.z(12)} -attr vt d
+load net {video_in:rsc.z(13)} -port {video_in:rsc.z(13)} -attr vt d
+load net {video_in:rsc.z(14)} -port {video_in:rsc.z(14)} -attr vt d
+load net {video_in:rsc.z(15)} -port {video_in:rsc.z(15)} -attr vt d
+load net {video_in:rsc.z(16)} -port {video_in:rsc.z(16)} -attr vt d
+load net {video_in:rsc.z(17)} -port {video_in:rsc.z(17)} -attr vt d
+load net {video_in:rsc.z(18)} -port {video_in:rsc.z(18)} -attr vt d
+load net {video_in:rsc.z(19)} -port {video_in:rsc.z(19)} -attr vt d
+load net {video_in:rsc.z(20)} -port {video_in:rsc.z(20)} -attr vt d
+load net {video_in:rsc.z(21)} -port {video_in:rsc.z(21)} -attr vt d
+load net {video_in:rsc.z(22)} -port {video_in:rsc.z(22)} -attr vt d
+load net {video_in:rsc.z(23)} -port {video_in:rsc.z(23)} -attr vt d
+load net {video_in:rsc.z(24)} -port {video_in:rsc.z(24)} -attr vt d
+load net {video_in:rsc.z(25)} -port {video_in:rsc.z(25)} -attr vt d
+load net {video_in:rsc.z(26)} -port {video_in:rsc.z(26)} -attr vt d
+load net {video_in:rsc.z(27)} -port {video_in:rsc.z(27)} -attr vt d
+load net {video_in:rsc.z(28)} -port {video_in:rsc.z(28)} -attr vt d
+load net {video_in:rsc.z(29)} -port {video_in:rsc.z(29)} -attr vt d
+load netBundle {video_in:rsc.z} 30 {video_in:rsc.z(0)} {video_in:rsc.z(1)} {video_in:rsc.z(2)} {video_in:rsc.z(3)} {video_in:rsc.z(4)} {video_in:rsc.z(5)} {video_in:rsc.z(6)} {video_in:rsc.z(7)} {video_in:rsc.z(8)} {video_in:rsc.z(9)} {video_in:rsc.z(10)} {video_in:rsc.z(11)} {video_in:rsc.z(12)} {video_in:rsc.z(13)} {video_in:rsc.z(14)} {video_in:rsc.z(15)} {video_in:rsc.z(16)} {video_in:rsc.z(17)} {video_in:rsc.z(18)} {video_in:rsc.z(19)} {video_in:rsc.z(20)} {video_in:rsc.z(21)} {video_in:rsc.z(22)} {video_in:rsc.z(23)} {video_in:rsc.z(24)} {video_in:rsc.z(25)} {video_in:rsc.z(26)} {video_in:rsc.z(27)} {video_in:rsc.z(28)} {video_in:rsc.z(29)} -attr xrf 792 -attr oid 76 -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {player2y:rsc.z(0)} -attr vt d
+load net {player2y:rsc.z(1)} -attr vt d
+load net {player2y:rsc.z(2)} -attr vt d
+load net {player2y:rsc.z(3)} -attr vt d
+load net {player2y:rsc.z(4)} -attr vt d
+load net {player2y:rsc.z(5)} -attr vt d
+load net {player2y:rsc.z(6)} -attr vt d
+load net {player2y:rsc.z(7)} -attr vt d
+load net {player2y:rsc.z(8)} -attr vt d
+load net {player2y:rsc.z(9)} -attr vt d
+load netBundle {player2y:rsc.z} 10 {player2y:rsc.z(0)} {player2y:rsc.z(1)} {player2y:rsc.z(2)} {player2y:rsc.z(3)} {player2y:rsc.z(4)} {player2y:rsc.z(5)} {player2y:rsc.z(6)} {player2y:rsc.z(7)} {player2y:rsc.z(8)} {player2y:rsc.z(9)} -attr xrf 793 -attr oid 77 -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(0)} -port {player2y:rsc.z(0)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(1)} -port {player2y:rsc.z(1)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(2)} -port {player2y:rsc.z(2)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(3)} -port {player2y:rsc.z(3)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(4)} -port {player2y:rsc.z(4)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(5)} -port {player2y:rsc.z(5)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(6)} -port {player2y:rsc.z(6)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(7)} -port {player2y:rsc.z(7)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(8)} -port {player2y:rsc.z(8)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(9)} -port {player2y:rsc.z(9)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {clk} -attr xrf 794 -attr oid 78
+load net {clk} -port {clk} -attr xrf 795 -attr oid 79
+load net {rst} -attr xrf 796 -attr oid 80
+load net {rst} -port {rst} -attr xrf 797 -attr oid 81
+load inst "blueobject:core:inst" "blueobject:core" "orig" -attr xrf 798 -attr oid 82 -attr vt dc -attr @path {/blueobject/blueobject:core:inst} -attr area 85.192537 -attr delay 1.457113 -attr hier "/blueobject/blueobject:core" -pg 1 -lvl 5
+load net {clk} -pin  "blueobject:core:inst" {clk#1} -attr xrf 799 -attr oid 83 -attr @path {/blueobject/clk}
+load net {rst} -pin  "blueobject:core:inst" {rst#1} -attr xrf 800 -attr oid 84 -attr @path {/blueobject/rst}
+load net {VGA_VS:rsc:mgc_in_wire.d#1} -pin  "blueobject:core:inst" {VGA_VS:rsc:mgc_in_wire.d} -attr xrf 801 -attr oid 85 -attr vt dc -attr @path {/blueobject/VGA_VS:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(0)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(0)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(1)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(1)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(2)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(2)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(3)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(3)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(4)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(4)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(5)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(5)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(6)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(6)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(7)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(7)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(8)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(8)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(9)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(9)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(10)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(10)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(11)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(11)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(12)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(12)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(13)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(13)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(14)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(14)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(15)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(15)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(16)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(16)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(17)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(17)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(18)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(18)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(19)} -pin  "blueobject:core:inst" {vga_xy:rsc:mgc_in_wire.d(19)} -attr vt dc -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(0)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(0)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(1)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(1)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(2)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(2)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(3)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(3)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(4)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(4)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(5)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(5)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(6)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(6)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(7)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(7)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(8)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(8)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(9)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(9)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(10)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(10)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(11)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(11)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(12)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(12)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(13)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(13)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(14)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(14)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(15)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(15)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(16)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(16)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(17)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(17)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(18)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(18)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(19)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(19)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(20)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(20)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(21)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(21)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(22)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(22)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(23)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(23)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(24)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(24)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(25)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(25)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(26)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(26)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(27)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(27)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(28)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(28)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(29)} -pin  "blueobject:core:inst" {video_in:rsc:mgc_in_wire.d(29)} -attr vt dc -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(0)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(0)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(1)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(1)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(2)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(2)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(3)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(3)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(4)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(4)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(5)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(5)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(6)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(6)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(7)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(7)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(8)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(8)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(9)} -pin  "blueobject:core:inst" {player2y:rsc:mgc_out_stdreg.d(9)} -attr vt dc -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load inst "VGA_VS:rsc:mgc_in_wire" "mgc_ioport.mgc_in_wire(1,1)" "INTERFACE" -attr xrf 802 -attr oid 86 -attr vt d -attr @path {/blueobject/VGA_VS:rsc:mgc_in_wire} -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_ioport.mgc_in_wire(1,1)" -pg 1 -lvl 1
+load net {VGA_VS:rsc:mgc_in_wire.d#1} -pin  "VGA_VS:rsc:mgc_in_wire" {d(0)} -attr vt d -attr @path {/blueobject/VGA_VS:rsc:mgc_in_wire.d}
+load net {VGA_VS:rsc.z} -pin  "VGA_VS:rsc:mgc_in_wire" {z(0)} -attr vt d -attr @path {/blueobject/VGA_VS:rsc.z}
+load inst "vga_xy:rsc:mgc_in_wire" "mgc_ioport.mgc_in_wire(2,20)" "INTERFACE" -attr xrf 803 -attr oid 87 -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire} -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_ioport.mgc_in_wire(2,20)" -pg 1 -lvl 1
+load net {vga_xy:rsc:mgc_in_wire.d#1(0)} -pin  "vga_xy:rsc:mgc_in_wire" {d(0)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(1)} -pin  "vga_xy:rsc:mgc_in_wire" {d(1)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(2)} -pin  "vga_xy:rsc:mgc_in_wire" {d(2)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(3)} -pin  "vga_xy:rsc:mgc_in_wire" {d(3)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(4)} -pin  "vga_xy:rsc:mgc_in_wire" {d(4)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(5)} -pin  "vga_xy:rsc:mgc_in_wire" {d(5)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(6)} -pin  "vga_xy:rsc:mgc_in_wire" {d(6)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(7)} -pin  "vga_xy:rsc:mgc_in_wire" {d(7)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(8)} -pin  "vga_xy:rsc:mgc_in_wire" {d(8)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(9)} -pin  "vga_xy:rsc:mgc_in_wire" {d(9)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(10)} -pin  "vga_xy:rsc:mgc_in_wire" {d(10)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(11)} -pin  "vga_xy:rsc:mgc_in_wire" {d(11)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(12)} -pin  "vga_xy:rsc:mgc_in_wire" {d(12)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(13)} -pin  "vga_xy:rsc:mgc_in_wire" {d(13)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(14)} -pin  "vga_xy:rsc:mgc_in_wire" {d(14)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(15)} -pin  "vga_xy:rsc:mgc_in_wire" {d(15)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(16)} -pin  "vga_xy:rsc:mgc_in_wire" {d(16)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(17)} -pin  "vga_xy:rsc:mgc_in_wire" {d(17)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(18)} -pin  "vga_xy:rsc:mgc_in_wire" {d(18)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc:mgc_in_wire.d#1(19)} -pin  "vga_xy:rsc:mgc_in_wire" {d(19)} -attr vt d -attr @path {/blueobject/vga_xy:rsc:mgc_in_wire.d}
+load net {vga_xy:rsc.z(0)} -pin  "vga_xy:rsc:mgc_in_wire" {z(0)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(1)} -pin  "vga_xy:rsc:mgc_in_wire" {z(1)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(2)} -pin  "vga_xy:rsc:mgc_in_wire" {z(2)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(3)} -pin  "vga_xy:rsc:mgc_in_wire" {z(3)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(4)} -pin  "vga_xy:rsc:mgc_in_wire" {z(4)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(5)} -pin  "vga_xy:rsc:mgc_in_wire" {z(5)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(6)} -pin  "vga_xy:rsc:mgc_in_wire" {z(6)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(7)} -pin  "vga_xy:rsc:mgc_in_wire" {z(7)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(8)} -pin  "vga_xy:rsc:mgc_in_wire" {z(8)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(9)} -pin  "vga_xy:rsc:mgc_in_wire" {z(9)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(10)} -pin  "vga_xy:rsc:mgc_in_wire" {z(10)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(11)} -pin  "vga_xy:rsc:mgc_in_wire" {z(11)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(12)} -pin  "vga_xy:rsc:mgc_in_wire" {z(12)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(13)} -pin  "vga_xy:rsc:mgc_in_wire" {z(13)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(14)} -pin  "vga_xy:rsc:mgc_in_wire" {z(14)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(15)} -pin  "vga_xy:rsc:mgc_in_wire" {z(15)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(16)} -pin  "vga_xy:rsc:mgc_in_wire" {z(16)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(17)} -pin  "vga_xy:rsc:mgc_in_wire" {z(17)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(18)} -pin  "vga_xy:rsc:mgc_in_wire" {z(18)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load net {vga_xy:rsc.z(19)} -pin  "vga_xy:rsc:mgc_in_wire" {z(19)} -attr vt d -attr @path {/blueobject/vga_xy:rsc.z}
+load inst "video_in:rsc:mgc_in_wire" "mgc_ioport.mgc_in_wire(3,30)" "INTERFACE" -attr xrf 804 -attr oid 88 -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire} -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_ioport.mgc_in_wire(3,30)" -pg 1 -lvl 1
+load net {video_in:rsc:mgc_in_wire.d#1(0)} -pin  "video_in:rsc:mgc_in_wire" {d(0)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(1)} -pin  "video_in:rsc:mgc_in_wire" {d(1)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(2)} -pin  "video_in:rsc:mgc_in_wire" {d(2)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(3)} -pin  "video_in:rsc:mgc_in_wire" {d(3)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(4)} -pin  "video_in:rsc:mgc_in_wire" {d(4)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(5)} -pin  "video_in:rsc:mgc_in_wire" {d(5)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(6)} -pin  "video_in:rsc:mgc_in_wire" {d(6)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(7)} -pin  "video_in:rsc:mgc_in_wire" {d(7)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(8)} -pin  "video_in:rsc:mgc_in_wire" {d(8)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(9)} -pin  "video_in:rsc:mgc_in_wire" {d(9)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(10)} -pin  "video_in:rsc:mgc_in_wire" {d(10)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(11)} -pin  "video_in:rsc:mgc_in_wire" {d(11)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(12)} -pin  "video_in:rsc:mgc_in_wire" {d(12)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(13)} -pin  "video_in:rsc:mgc_in_wire" {d(13)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(14)} -pin  "video_in:rsc:mgc_in_wire" {d(14)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(15)} -pin  "video_in:rsc:mgc_in_wire" {d(15)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(16)} -pin  "video_in:rsc:mgc_in_wire" {d(16)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(17)} -pin  "video_in:rsc:mgc_in_wire" {d(17)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(18)} -pin  "video_in:rsc:mgc_in_wire" {d(18)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(19)} -pin  "video_in:rsc:mgc_in_wire" {d(19)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(20)} -pin  "video_in:rsc:mgc_in_wire" {d(20)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(21)} -pin  "video_in:rsc:mgc_in_wire" {d(21)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(22)} -pin  "video_in:rsc:mgc_in_wire" {d(22)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(23)} -pin  "video_in:rsc:mgc_in_wire" {d(23)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(24)} -pin  "video_in:rsc:mgc_in_wire" {d(24)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(25)} -pin  "video_in:rsc:mgc_in_wire" {d(25)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(26)} -pin  "video_in:rsc:mgc_in_wire" {d(26)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(27)} -pin  "video_in:rsc:mgc_in_wire" {d(27)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(28)} -pin  "video_in:rsc:mgc_in_wire" {d(28)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc:mgc_in_wire.d#1(29)} -pin  "video_in:rsc:mgc_in_wire" {d(29)} -attr vt d -attr @path {/blueobject/video_in:rsc:mgc_in_wire.d}
+load net {video_in:rsc.z(0)} -pin  "video_in:rsc:mgc_in_wire" {z(0)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(1)} -pin  "video_in:rsc:mgc_in_wire" {z(1)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(2)} -pin  "video_in:rsc:mgc_in_wire" {z(2)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(3)} -pin  "video_in:rsc:mgc_in_wire" {z(3)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(4)} -pin  "video_in:rsc:mgc_in_wire" {z(4)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(5)} -pin  "video_in:rsc:mgc_in_wire" {z(5)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(6)} -pin  "video_in:rsc:mgc_in_wire" {z(6)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(7)} -pin  "video_in:rsc:mgc_in_wire" {z(7)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(8)} -pin  "video_in:rsc:mgc_in_wire" {z(8)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(9)} -pin  "video_in:rsc:mgc_in_wire" {z(9)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(10)} -pin  "video_in:rsc:mgc_in_wire" {z(10)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(11)} -pin  "video_in:rsc:mgc_in_wire" {z(11)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(12)} -pin  "video_in:rsc:mgc_in_wire" {z(12)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(13)} -pin  "video_in:rsc:mgc_in_wire" {z(13)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(14)} -pin  "video_in:rsc:mgc_in_wire" {z(14)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(15)} -pin  "video_in:rsc:mgc_in_wire" {z(15)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(16)} -pin  "video_in:rsc:mgc_in_wire" {z(16)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(17)} -pin  "video_in:rsc:mgc_in_wire" {z(17)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(18)} -pin  "video_in:rsc:mgc_in_wire" {z(18)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(19)} -pin  "video_in:rsc:mgc_in_wire" {z(19)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(20)} -pin  "video_in:rsc:mgc_in_wire" {z(20)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(21)} -pin  "video_in:rsc:mgc_in_wire" {z(21)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(22)} -pin  "video_in:rsc:mgc_in_wire" {z(22)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(23)} -pin  "video_in:rsc:mgc_in_wire" {z(23)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(24)} -pin  "video_in:rsc:mgc_in_wire" {z(24)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(25)} -pin  "video_in:rsc:mgc_in_wire" {z(25)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(26)} -pin  "video_in:rsc:mgc_in_wire" {z(26)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(27)} -pin  "video_in:rsc:mgc_in_wire" {z(27)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(28)} -pin  "video_in:rsc:mgc_in_wire" {z(28)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load net {video_in:rsc.z(29)} -pin  "video_in:rsc:mgc_in_wire" {z(29)} -attr vt d -attr @path {/blueobject/video_in:rsc.z}
+load inst "player2y:rsc:mgc_out_stdreg" "mgc_ioport.mgc_out_stdreg(4,10)" "INTERFACE" -attr xrf 805 -attr oid 89 -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg} -attr delay -1000000000000000000000000000000.000000 -attr qmod "mgc_ioport.mgc_out_stdreg(4,10)" -pg 1 -lvl 1002
+load net {player2y:rsc:mgc_out_stdreg.d#1(0)} -pin  "player2y:rsc:mgc_out_stdreg" {d(0)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(1)} -pin  "player2y:rsc:mgc_out_stdreg" {d(1)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(2)} -pin  "player2y:rsc:mgc_out_stdreg" {d(2)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(3)} -pin  "player2y:rsc:mgc_out_stdreg" {d(3)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(4)} -pin  "player2y:rsc:mgc_out_stdreg" {d(4)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(5)} -pin  "player2y:rsc:mgc_out_stdreg" {d(5)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(6)} -pin  "player2y:rsc:mgc_out_stdreg" {d(6)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(7)} -pin  "player2y:rsc:mgc_out_stdreg" {d(7)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(8)} -pin  "player2y:rsc:mgc_out_stdreg" {d(8)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc:mgc_out_stdreg.d#1(9)} -pin  "player2y:rsc:mgc_out_stdreg" {d(9)} -attr vt d -attr @path {/blueobject/player2y:rsc:mgc_out_stdreg.d}
+load net {player2y:rsc.z(0)} -pin  "player2y:rsc:mgc_out_stdreg" {z(0)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(1)} -pin  "player2y:rsc:mgc_out_stdreg" {z(1)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(2)} -pin  "player2y:rsc:mgc_out_stdreg" {z(2)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(3)} -pin  "player2y:rsc:mgc_out_stdreg" {z(3)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(4)} -pin  "player2y:rsc:mgc_out_stdreg" {z(4)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(5)} -pin  "player2y:rsc:mgc_out_stdreg" {z(5)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(6)} -pin  "player2y:rsc:mgc_out_stdreg" {z(6)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(7)} -pin  "player2y:rsc:mgc_out_stdreg" {z(7)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(8)} -pin  "player2y:rsc:mgc_out_stdreg" {z(8)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+load net {player2y:rsc.z(9)} -pin  "player2y:rsc:mgc_out_stdreg" {z(9)} -attr vt d -attr @path {/blueobject/player2y:rsc.z}
+### END MODULE 
+
