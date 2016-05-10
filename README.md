@@ -5,3 +5,5 @@ This is a simple Pong/Brick Breaker hybrid game which can be played on a DE0 Boa
 
 In order to run the game, download the whole repository as a .zip and extract and run the DE0_D5M.qpf
 The actual Quartus File can be found in /student_files_2015(1)/student_files_2015/prj2/quartus_proj/DE0_CAMERA_MOUSE/DE0_D5M.qpf
+
+![alt tag](https://raw.githubusercontent.com/alaksana96/FPGAGame/master/game.jpg)
