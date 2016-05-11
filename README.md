@@ -10,6 +10,7 @@ The actual Quartus File can be found in /student_files_2015(1)/student_files_201
 
 The green paddle on the left can be controlled by a red object, whereas the blue paddle on the right can be controlled using a blue object. In our example, we have used a red and a blue coloured rugby ball. The two players should ensure that the objects can be seen by the camera, so moving the balls up and down between 30-50cm away from the camera of the DE0 board.
 
+Clicking the image below will take you to a youtube video of the game in action.
 
 [![alt tag](http://img.youtube.com/vi/93bJ8fuOqr0/0.jpg)](https://www.youtube.com/watch?v=93bJ8fuOqr0 "FPGA Game: Pong Clone")
 
