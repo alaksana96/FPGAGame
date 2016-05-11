@@ -10,7 +10,7 @@ The actual Quartus File can be found in /student_files_2015(1)/student_files_201
 
 The green paddle on the left can be controlled by a red object, whereas the blue paddle on the right can be controlled using a blue object. In our example, we have used a red and a blue coloured rugby ball. The two players should ensure that the objects can be seen by the camera, so moving the balls up and down between 30-50cm away from the camera of the DE0 board.
 
-![alt tag](https://www.youtube.com/watch?v=-EDwYY11hIo&feature=youtu.be)
+![alt tag](https://www.youtube.com/embed/-EDwYY11hIo)
 
 
 There is some lag as to the position of the paddle. Sometimes, the position of the paddle does not update when you move the object too quickly. Also, the paddles flicker between 2 positions, since the image processing algorithm is not very advanced.I hope to solve these issues once my first year exams are out of the way.
