@@ -18,3 +18,7 @@ Clicking the image below will take you to a youtube video of the game in action.
 There is some lag as to the position of the paddle. Sometimes, the position of the paddle does not update when you move the object too quickly. Also, the paddles flicker between 2 positions, since the image processing algorithm is not very advanced.I hope to solve these issues once my first year exams are out of the way.
 
 ![alt tag](https://raw.githubusercontent.com/alaksana96/FPGAGame/master/gameschematic.png)
+
+
+Changes to be made:
+-Clock domain crossing: 108MHz Pixel Clock and 25MHz Pixel Clock, need to be synced to one clock in order to not lose information
